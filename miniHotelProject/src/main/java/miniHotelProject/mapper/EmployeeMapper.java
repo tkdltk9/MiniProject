@@ -6,6 +6,6 @@ import miniHotelProject.domain.EmployeeDTO;
 
 @Mapper
 public interface EmployeeMapper {
-	public void employeeInsert(EmployeeDTO dto);
+	public Integer employeeInsert(EmployeeDTO dto);
 
 }

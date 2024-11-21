@@ -19,10 +19,10 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </head>
 <body class="w3-light-grey">
 <!-- Contact section -->
-  <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact">
+  <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact" >
     <div class="w3-content" style="max-width:600px">
       <h4 class="w3-center"><b>호스트 가입하기</b></h4>
-      <form action="empRegist" method="post" th:object="${employeeCommand}">
+      <form action="empRegist" method="post" th:object="${employeeCommand}" id="frm">
       	<div class="w3-section">
           <label>호스트번호</label>
           <input class="w3-input w3-border" type="text" name="empNum" th:value="${employeeCommand.empNum}" readonly="readonly">

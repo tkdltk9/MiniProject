@@ -10,8 +10,7 @@
 	
 	<insert id="employeeInsert" parameterType="empDTO">
 		insert into employees( <include refid="empBaseColumns" /> )
-		values(#{empNum}, #{empId}, #{empPw}, #{empName}, #{empAddr} 
-			, #{empAddrDetail}, #{empPost} 
-			, #{empPhone}, #{empJumin}, #{empEmail}, sysdate)
+		values( #{empNum}, #{empId}, #{empPw}, #{empName}, #{empAddr} 
+			, #{empAddrDetail}, #{empPost}, #{empPhone}, #{empJumin}, #{empEmail}, sysdate )
 	</insert>
 </mapper>

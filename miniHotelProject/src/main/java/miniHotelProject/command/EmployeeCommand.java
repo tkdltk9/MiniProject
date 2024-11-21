@@ -30,7 +30,7 @@ public class EmployeeCommand {
 	@Size(min = 11, max = 23)
 	String empPhone;
 	String empJumin;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd") 
 	Date empHireDate;
 	@NotBlank(message = "이메일을 입력하여 주세요.")
 	String empEmail;

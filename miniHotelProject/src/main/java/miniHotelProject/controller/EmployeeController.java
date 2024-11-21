@@ -1,7 +1,5 @@
 package miniHotelProject.controller;
 
-import javax.naming.Binding;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import miniHotelProject.command.EmployeeCommand;
 import miniHotelProject.service.AutoNumService;
 import miniHotelProject.service.employee.EmployeeWriteService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RequestMapping("employee")
@@ -34,9 +34,11 @@ public class EmployeeController {
 	@PostMapping("empRegist")
 	public String empRegist(@Validated EmployeeCommand employeeCommand
 			, BindingResult result) {
-		if(result.hasErrors()) {
-			System.out.println("hassErrors 초비상!!!");
-			return "thymeleaf/employee/empRegist";
+		if (result.hasErrors()) {
+		    result.getAllErrors().forEach(error -> {
+		        System.out.println("Error: " + error.getDefaultMessage());
+		    });
+		    return "thymeleaf/employee/empRegist";
 		}
 		if(!employeeCommand.isEmpPwEqualEmpPwCon()) {
 			System.out.println("비밀번호 불일치");
@@ -46,5 +48,10 @@ public class EmployeeController {
 		employeeWriteService.execute(employeeCommand);
 		return "redirect:/";
 	}
+	@GetMapping("empDetail")
+	public String empDetail() {
+		return "thymeleaf/employee/empDetail";
+	}
+	
 	
 }
