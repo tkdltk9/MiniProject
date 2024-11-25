@@ -13,4 +13,29 @@
 		values( #{empNum}, #{empId}, #{empPw}, #{empName}, #{empAddr} 
 			, #{empAddrDetail}, #{empPost}, #{empPhone}, #{empJumin}, #{empEmail}, sysdate )
 	</insert>
+	
+	<select id="employeeSelectAll" resultType="empDTO">
+		select <include refid="empBaseColumns" /> from employees
+	</select>
+	
+	<select id="employeeSelectOne" resultType="empDTO" parameterType="string">
+		select <include refid="empBaseColumns" /> from employees
+		where emp_num = #{empNum}
+	</select>
+	
+	<update id="employeeUpdate" parameterType="empDTO">
+		update employees set
+		EMP_NAME = #{empName}
+		, EMP_ADDR = #{empAddr}
+		, EMP_ADDR_DETAIL = #{empAddrDetail}
+		, EMP_POST = #{empPost}
+		, EMP_PHONE = #{empPhone}
+		, EMP_EMAIL = #{empEmail}
+		, EMP_HIRE_DATE = #{empHireDate}
+		where EMP_NUM = #{empNum}
+	</update>
+	
+	<delete id="employeeDelete" parameterType="string">
+		delete from employees where EMP_NUM = #{empNum}
+	</delete>
 </mapper>

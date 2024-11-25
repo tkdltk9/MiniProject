@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 .w3-quarter img{margin-bottom: -6px; cursor: pointer}
@@ -16,6 +15,13 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript" src="/static/js/check.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#sample4_roadAddress").click(function(){
+		execDaumPostcode();
+	});
+});
+</script>
 </head>
 <body class="w3-light-grey">
 <!-- Contact section -->
@@ -48,7 +54,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           <span style="color:red" th:if="${#fields.hasErrors('empPwCon')}" th:errors="*{empPwCon}"></span>
         </div>
         <div class="w3-section">
-          <label>호스트주소</label>    <button type="button" onclick="execDaumPostcode();">우편번호검색</button>
+          <label>호스트주소</label>
           <input class="w3-input w3-border" type="text" name="empAddr" id="sample4_roadAddress" th:value="${employeeCommand.empAddr }" readonly="readonly">
 				<span style="color:red" th:if="${#fields.hasErrors('empAddr')}" th:errors="*{empAddr}">
         </div>

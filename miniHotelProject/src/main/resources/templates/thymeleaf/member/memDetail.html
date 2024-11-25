@@ -34,34 +34,33 @@ h1, h2, h3, h4, h5, h6 {
   	<h1 class="w3-center">My Info</h1><br>
     <div class="w3-col l6 w3-padding-large">
       <h4>호스트 번호</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empNum}]]</p>
+      <p class="w3-text-grey"></p>
     
       <h4>아이디</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empId}]]</p>
+      <p class="w3-text-grey"></p>
     
       <h4>이름</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empName}]]</p>
+      <p class="w3-text-grey"></p>
     
       <h4>주소</h4>
-      <p class="w3-text-grey">([[${employeeCommand.empPost}]]), [[${employeeCommand.empAddr}]]<br>
-      						[[${employeeCommand.empAddrDetail}]]</p>
+      <p class="w3-text-grey"></p>
     
       <h4>휴대폰</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empPhone}]]</p>
+      <p class="w3-text-grey"></p>
       
       <h4>이메일</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empEmail}]]</p>  
+      <p class="w3-text-grey"></p>  
        
       <h4>주민번호</h4>
-      <p class="w3-text-grey">[[${employeeCommand.empJumin}]]</p>  
+      <p class="w3-text-grey"></p>  
        
       <h4>등록일</h4>
-      <p class="w3-text-grey">[[${#dates.format(employeeCommand.empHireDate, 'yyyy-MM-dd')}]]</p>  
+      <p class="w3-text-grey"></p>  
        
       <p><button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/employee/empUpdate?empNum=${employeeCommand.empNum}'|" >내 정보 수정</button>
+      		th:attr="onclick=|javascript:location.href=''|" >내 정보 수정</button>
       	<button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/employee/empDelete?empNum=${employeeCommand.empNum}'|">호스트 탈퇴</button></p> 
+      		th:attr="onclick=|javascript:location.href=''|">회원 탈퇴</button></p> 
     </div>
     
     <div class="w3-col l6 w3-padding-large">
