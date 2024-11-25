@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import miniHotelProject.command.MemberCommand;
 import miniHotelProject.service.AutoNumService;
+import miniHotelProject.service.member.MemberDetailService;
+import miniHotelProject.service.member.MemberListService;
 import miniHotelProject.service.member.MemberWriteService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -24,6 +25,10 @@ public class MemberController {
 	AutoNumService autoNumService;
 	@Autowired
 	MemberWriteService memberWriteService;
+	@Autowired
+	MemberListService memberListService;
+	@Autowired
+	MemberDetailService memberDetailService;
 	@GetMapping("memRegist")
 	public String memRegist(Model model) {
 		String autoNum = autoNumService.execute("mem_", "member_num", 5, "members");
@@ -49,8 +54,15 @@ public class MemberController {
 		memberWriteService.execute(memberCommand);
 		return "redirect:/";
 	}
+	@GetMapping("memList")
+	public String memList(Model model) {
+		memberListService.execute(model);
+		return "thymeleaf/member/memList";
+	}
+	
 	@GetMapping("memDetail")
-	public String memDetail() {
+	public String memDetail(String memberNum, Model model) {
+		memberDetailService.execute(memberNum, model);
 		return "thymeleaf/member/memDetail";
 	}
 	

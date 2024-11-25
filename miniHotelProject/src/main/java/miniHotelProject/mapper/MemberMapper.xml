@@ -9,7 +9,6 @@
 		, MEMBER_BIRTH, MEMBER_POINT, MEMBER_EMAIL_CONF
 	</sql>
 	
-	
 	<insert id="memberInsert" parameterType="memDTO">
 		insert into members(MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
 		, MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
@@ -20,4 +19,13 @@
 		, sysdate, #{gender}, #{memberPhone1}
 		, #{memberEmail}, #{memberBirth})
 	</insert>
+	
+	<select id="memberSelectAll" resultType="memDTO">
+		select <include refid="memberBaseColumns" /> from members
+	</select>
+	
+	<select id="memberSelectOne" resultType="memDTO" parameterType="string">
+		select <include refid="memberBaseColumns" /> from members
+		where member_num = #{memberNum}
+	</select>
 </mapper>
