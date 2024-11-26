@@ -28,4 +28,25 @@
 		select <include refid="memberBaseColumns" /> from members
 		where member_num = #{memberNum}
 	</select>
+	
+	<update id="memberUpdate" parameterType="memDTO">
+		update members set
+		gender = #{gender}
+		, member_addr = #{memberAddr}
+		, member_addr_detail = #{memberAddrDetail}
+		, member_birth = #{memberBirth}
+		, member_email = #{memberEmail}
+		, member_id = #{memberId}
+		, member_name = #{memberName}
+		, member_num = #{memberNum}
+		, member_phone1 = #{memberPhone1}
+		, member_post = #{memberPost}
+		, member_regist = #{memberRegist}
+		where member_num = #{memberNum}
+	</update>
+	
+	<delete id="memberDelete" parameterType="string">
+		delete from members
+		where member_num = #{memberNum}
+	</delete>
 </mapper>

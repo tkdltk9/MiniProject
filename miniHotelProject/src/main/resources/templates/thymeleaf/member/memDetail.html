@@ -63,9 +63,9 @@ h1, h2, h3, h4, h5, h6 {
       <p class="w3-text-grey">[[${memberCommand.memberEmail }]]</p>  
        
       <p><button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href=''|" >내 정보 수정</button>
+      		th:attr="onclick=|javascript:location.href='/member/memUpdate?memberNum=${memberCommand.memberNum}'|" >내 정보 수정</button>
       	<button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href=''|">회원 탈퇴</button></p> 
+      		th:attr="onclick=|javascript:location.href='/member/memDelete?memberNum=${memberCommand.memberNum}'|">회원 탈퇴</button></p> 
     </div>
     
     <div class="w3-col l6 w3-padding-large">

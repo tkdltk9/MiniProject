@@ -1,7 +1,6 @@
 package miniHotelProject.service.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import miniHotelProject.command.MemberCommand;
@@ -9,11 +8,9 @@ import miniHotelProject.domain.MemberDTO;
 import miniHotelProject.mapper.MemberMapper;
 
 @Service
-public class MemberWriteService {
+public class MemberUpdateService {
 	@Autowired
 	MemberMapper memberMapper;
-	@Autowired
-	PasswordEncoder passwordEncoder;
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
 		dto.setGender(memberCommand.getGender());
@@ -26,9 +23,7 @@ public class MemberWriteService {
 		dto.setMemberNum(memberCommand.getMemberNum());
 		dto.setMemberPhone1(memberCommand.getMemberPhone1());
 		dto.setMemberPost(memberCommand.getMemberPost());
-		String encodePw = passwordEncoder.encode(memberCommand.getMemberPw());
-		dto.setMemberPw(encodePw);
-		
-		memberMapper.memberInsert(dto);
+		dto.setMemberRegist(memberCommand.getMemberRegist());
+		memberMapper.memberUpdate(dto);
 	}
 }

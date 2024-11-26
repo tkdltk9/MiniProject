@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="/static/js/check.js"></script>
+<link rel="stylesheet" href="/static/css/form.css" />
+<style>
+  body {
+    padding-top: 60px; /* 헤더 높이만큼 여백 추가 */
+  }
+  .radio-group {
+    display: inline-block;
+  }
+
+  .radio-group input[type="radio"] {
+    margin-right: 5px; /* 라디오 버튼과 텍스트 간 간격 조정 */
+  }
+</style>
+<script type="text/javascript">
+$(function(){
+	$("#sample4_roadAddress").click(function(){
+		execDaumPostcode();
+	});
+});
+</script>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="#home" class="w3-bar-item w3-button">회원 정보 수정</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="/" class="w3-bar-item w3-button">Home</a>
+      <a href="#contact" class="w3-bar-item w3-button">LogOut</a>
+    </div>
+  </div>
+</div>
+<form action="memModify" method="post" name="frm" th:object="${memberCommand}">
+<!-- 유효성 검사 오류를 막기 위해 추가 했습니다. -->
+<input type="hidden" name="memberPw" value="1111!qqqq" />
+<input type="hidden" name="memberPwCon" value="111111" />
+	<div class="form-caption-wrapper">
+	    <p class="form-caption">회원 정보수정</p>
+	    <div class="form-wrapper">
+	        <form class="whatsapp-form">
+	        	<div class="datainput">
+	                <input type="text" name="memberNum" th:value="${memberCommand.memberNum }" readonly="readonly" />
+	                <label for="memberNum">회원번호</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="memberName" th:value="${memberCommand.memberName }" />
+	                <span style="color:red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"></span>
+	                <label for="memberName">이름</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="memberId" th:value="${memberCommand.memberId }" readonly="readonly" />
+					<span style="color:red" th:if="${#fields.hasErrors('memberId')}"th:errors="*{memberId}"></span>
+	                <label for="memberId">아이디</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="memberAddr" id="sample4_roadAddress" th:value="${memberCommand.memberAddr }" readonly="readonly"/>
+					<span style="color:red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"></span>
+	                <label for="memberAddr">주소</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail }"/>
+	                <label for="memberAddrDetail">상세주소</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="memberPost" id="sample4_postcode" readonly th:value="${memberCommand.memberPost }"/>
+	                <label for="memberPost">우편번호</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="tel" name="memberPhone1" th:value="${memberCommand.memberPhone1 }"/>
+					<span style="color:red" th:if="${#fields.hasErrors('memberPhone1')}" th:errors="*{memberPhone1}"></span>
+	                <label for="memberPhone">전화번호</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput"><input type="radio" name="gender" value="M" th:checked="*{gender == 'M'}" />남자 
+	                <input type="radio" name="gender" value="F" th:checked="${memberCommand.gender == 'F'}"/>여자
+	                <label for="gender">성별</label>
+	                
+	            </div>
+	            <div class="datainput">
+	                <input type="date" name="memberRegist" 
+						th:value="${#dates.format(memberCommand.memberRegist,'yyyy-MM-dd')}" />
+	                <label for="memberPost">등록일</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="date" name="memberBirth" 
+						th:value="${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd')}" />
+	                <label for="memberPost">생년월일</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+				<input type="email" name="memberEmail" id="userEamil" th:field="*{memberEmail}"/>
+				<span th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" ></span>
+				<span class="highlight"></span><span class="bar"></span>
+				<label>이메일</label>
+				</div>
+				
+	            <button class="button"><b>수정 완료</b></button>
+	        </form>
+	    </div>
+	</div>
+</form>
+</html>
