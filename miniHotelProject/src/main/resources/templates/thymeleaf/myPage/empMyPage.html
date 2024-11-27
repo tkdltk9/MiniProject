@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
-    <a href="#home" class="w3-bar-item w3-button">Member Info</a>
+    <a href="#home" class="w3-bar-item w3-button">Host Info</a>
     <!-- Right-sided navbar links. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
       <a href="/" class="w3-bar-item w3-button">Home</a>
@@ -31,41 +31,37 @@ h1, h2, h3, h4, h5, h6 {
 <div class="w3-content" style="max-width:1100px">
   <!-- Menu Section -->
   <div class="w3-row w3-padding-64" id="menu">
-  	<h1 class="w3-center">[[${memberCommand.memberName}]]님의 정보</h1><br>
+  	<h1 class="w3-center">[[${employeeCommand.empName}]]님의 정보</h1><br>
     <div class="w3-col l6 w3-padding-large">
-      <h4>회원 번호</h4>
-      <p class="w3-text-grey">[[${memberCommand.memberNum}]]</p>
-    	
-      <h4>이름</h4>
-      <p class="w3-text-grey">[[${memberCommand.memberName}]]</p>
-    	
+      <h4>호스트 번호</h4>
+      <p class="w3-text-grey">[[${employeeCommand.empNum}]]</p>
+    
       <h4>아이디</h4>
-      <p class="w3-text-grey">[[${memberCommand.memberId }]]</p>
+      <p class="w3-text-grey">[[${employeeCommand.empId}]]</p>
+    
+      <h4>이름</h4>
+      <p class="w3-text-grey">[[${employeeCommand.empName}]]</p>
     
       <h4>주소</h4>
-      <p class="w3-text-grey">([[${memberCommand.memberPost }]]),[[${memberCommand.memberAddr }]]<br>
-      							[[${memberCommand.memberAddrDetail  }]]</p>
+      <p class="w3-text-grey">([[${employeeCommand.empPost}]]), [[${employeeCommand.empAddr}]]<br>
+      						[[${employeeCommand.empAddrDetail}]]</p>
     
       <h4>휴대폰</h4>
-      <p class="w3-text-grey">[[${memberCommand.memberPhone1 }]]</p>
+      <p class="w3-text-grey">[[${employeeCommand.empPhone}]]</p>
       
-      <h4>성별</h4>
-      <p class="w3-text-grey"><span th:if="${memberCommand.gender == 'M'}">남자</span>
-	  							<span th:if="${memberCommand.gender == 'F'}">여자</span></p>
-      
-      <h4>등록일</h4>
-      <p class="w3-text-grey">[[${#dates.format(memberCommand.memberRegist ,'yyyy-MM-dd')}]]</p>  
-       
-      <h4>생년월일</h4>
-      <p class="w3-text-grey">[[${#dates.format(memberCommand.memberBirth,  'yyyy-MM-dd')}]]</p>  
-       
       <h4>이메일</h4>
-      <p class="w3-text-grey">[[${memberCommand.memberEmail }]]</p>  
+      <p class="w3-text-grey">[[${employeeCommand.empEmail}]]</p>  
+       
+      <h4>주민번호</h4>
+      <p class="w3-text-grey">[[${employeeCommand.empJumin}]]</p>  
+       
+      <h4>등록일</h4>
+      <p class="w3-text-grey">[[${#dates.format(employeeCommand.empHireDate, 'yyyy-MM-dd')}]]</p>  
        
       <p><button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/member/memUpdate?memberNum=${memberCommand.memberNum}'|" >내 정보 수정</button>
+      		th:attr="onclick=|javascript:location.href='/myPage/empUpdate'|" >내 정보 수정</button>
       	<button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/member/memDelete?memberNum=${memberCommand.memberNum}'|">회원 탈퇴</button></p> 
+      		th:attr="onclick=|javascript:location.href='/myPage/empDrop'|">호스트 탈퇴</button></p> 
     </div>
     
     <div class="w3-col l6 w3-padding-large">

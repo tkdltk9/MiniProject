@@ -17,42 +17,34 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-    <a href="#home" class="w3-bar-item w3-button"><b>호스트</b> 리스트</a>
+    <a href="#home" class="w3-bar-item w3-button"><b>숙소</b> 리스트</a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
       <a href="/" class="w3-bar-item w3-button">Home</a>
-      <a href="#home" class="w3-bar-item w3-button">Top</a>
+      <a href="/goods/goodsForm" class="w3-bar-item w3-button">Host</a>
       <a href="#about" class="w3-bar-item w3-button">List</a>
       <a href="/login/logout" class="w3-bar-item w3-button">LogOut</a>
     </div>
   </div>
 </div>
 
-<!-- Header -->
-<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
-  <img class="w3-image" src="/static/images/hotel/hotelmain.jpg" alt="Architecture" width="1500" height="800">
-  <div class="w3-display-middle w3-margin-top w3-center">
-    <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Ya</b></span> <span class="w3-hide-small w3-text-light-grey">Nolgga</span></h1>
-  </div>
-</header>
-
 <!-- Page content -->
 <div class="w3-content w3-padding" style="max-width:1564px">
 
   <!-- About Section -->
   <div class="w3-container w3-padding-32" id="about">
-    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">호스트 리스트</h3>
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">숙소 리스트</h3>
     <div class="w3-row-padding w3-grayscale">
-    	<th:block th:each="dto : ${list}">
+    	<th:block >
 		    <div class="w3-col l3 m6 w3-margin-bottom">
 		      <img src="/static/images/karina.jpeg" alt="John" style="width:100%">
-		      <h3>[[${dto.empName}]]</h3>
-		      <p class="w3-opacity">[[${dto.empNum}]]</p>
-		      <p>아이디 : [[${dto.empId}]] <br>
-		      	등록일 : [[${#dates.format(dto.empHireDate, 'yyyy-MM-dd')}]] <br>
-		      	연락처 : [[${dto.empPhone}]]</p>
+		      <h3></h3>
+		      <p class="w3-opacity"></p>
+		      <p>아이디 :  <br>
+		      	등록일 :  <br>
+		      	연락처 : </p>
 		      <p><button type="button" class="w3-button w3-light-grey w3-block" 
-		      	th:attr="onclick=|javascript:location.href='/employee/empDetail?empNum=${dto.empNum}'|">호스트 상세보기</button></p>
+		      	th:attr="onclick=|javascript:location.href=''|">숙소 상세보기</button></p>
 		    </div>
 		</th:block>
 	  </div>

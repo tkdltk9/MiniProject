@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniHotelProject.mapper.MemberInfoMapper">
+	<sql id="memberBaseColumns">
+		MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW, MEMBER_ADDR, MEMBER_ADDR_DETAIL
+		, MEMBER_POST, MEMBER_REGIST, GENDER, MEMBER_PHONE1, MEMBER_EMAIL
+		, MEMBER_BIRTH, MEMBER_POINT, MEMBER_EMAIL_CONF
+	</sql>
+
+	<select id="memberSelectOne" resultType="memDTO" parameterType="string">
+		select <include refid="memberBaseColumns" /> from members
+		where member_id = #{memberId}
+	</select>
+	
+	<update id="memberUpdate" parameterType="memDTO">
+		update members set
+		 MEMBER_NAME = #{memberName}
+		 , MEMBER_ADDR = #{memberAddr}
+		 , MEMBER_ADDR_DETAIL = #{memberAddrDetail}
+		 , MEMBER_POST = #{memberPost}
+		 , GENDER = #{gender}
+		 , MEMBER_PHONE1 = #{memberPhone1}
+		 , MEMBER_EMAIL = #{memberEmail}
+		 , MEMBER_BIRTH = #{memberBirth}
+		 where member_id = #{memberId}
+	</update>
+	
+	<delete id="memberDelete" parameterType="string">
+		delete from members
+		where member_id = #{memberId}
+	</delete>
+</mapper>

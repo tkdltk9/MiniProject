@@ -18,10 +18,6 @@ import miniHotelProject.service.member.MemberUpdateService;
 import miniHotelProject.service.member.MemberWriteService;
 
 
-
-
-
-
 @RequestMapping("member")
 @Controller
 public class MemberController {

@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
-    <a href="#home" class="w3-bar-item w3-button">Member Info</a>
+    <a href="#home" class="w3-bar-item w3-button">My Page</a>
     <!-- Right-sided navbar links. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
       <a href="/" class="w3-bar-item w3-button">Home</a>
@@ -63,9 +63,9 @@ h1, h2, h3, h4, h5, h6 {
       <p class="w3-text-grey">[[${memberCommand.memberEmail }]]</p>  
        
       <p><button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/member/memUpdate?memberNum=${memberCommand.memberNum}'|" >내 정보 수정</button>
+      		th:attr="onclick=|javascript:location.href='/myPage/memUpdate'|" >내 정보 수정</button>
       	<button class="w3-button w3-light-grey w3-section" type="button" 
-      		th:attr="onclick=|javascript:location.href='/member/memDelete?memberNum=${memberCommand.memberNum}'|">회원 탈퇴</button></p> 
+      		th:attr="onclick=|javascript:location.href='/myPage/memDrop'|">회원 탈퇴</button></p> 
     </div>
     
     <div class="w3-col l6 w3-padding-large">

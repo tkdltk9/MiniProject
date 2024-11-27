@@ -18,11 +18,11 @@ h1, h2, h3, h4, h5, h6 {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
-    <a href="#home" class="w3-bar-item w3-button">My Page</a>
+    <a href="#home" class="w3-bar-item w3-button">Host Info</a>
     <!-- Right-sided navbar links. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
       <a href="/" class="w3-bar-item w3-button">Home</a>
-      <a href="#contact" class="w3-bar-item w3-button">LogOut</a>
+      <a href="/login/logout" class="w3-bar-item w3-button">LogOut</a>
     </div>
   </div>
 </div>
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 <div class="w3-content" style="max-width:1100px">
   <!-- Menu Section -->
   <div class="w3-row w3-padding-64" id="menu">
-  	<h1 class="w3-center">My Info</h1><br>
+  	<h1 class="w3-center">[[${employeeCommand.empName}]]님의 정보</h1><br>
     <div class="w3-col l6 w3-padding-large">
       <h4>호스트 번호</h4>
       <p class="w3-text-grey">[[${employeeCommand.empNum}]]</p>

@@ -1,0 +1,13 @@
+@charset "UTF-8";
+.sound_only {display:inline-block !important;position:absolute;top:0;left:0;margin:0 !important;padding:0 !important;font-size:0;line-height:0;border:0 !important;overflow:hidden !important}
+
+#scrDoc{display:flex;position:relative;height:100vh;font-size:18px;font-weight:400;text-align:center;color:#8a96ad;line-height:1.45;font-family:'pretendard'}
+#scrDoc .cont{display:flex;flex-flow:column;align-items: center;gap:10px;margin:auto}
+#scrDoc .icon{display:flex;width:60px;height:60px;margin-bottom:20px;border-radius:50%;color:#fff;background:#0F62FE}
+#scrDoc .icon i{margin:auto;font-size:18px}
+#scrDoc .flex{display:flex;align-items:center;margin:20px 0 0}
+#scrDoc .input_wrap{overflow:hidden;position:relative;border-radius:6px 0 0 6px;border:1px solid #d5d5d5;border-right:none}
+#scrDoc .input_wrap .pswd{width:250px;height:55px;padding:0 40px 0 15px;border:none;font-size:15px;font-weight:500;color:#24324b;font-family:'pretendard'}
+#scrDoc .input_wrap .pswd:focus, .pswd:active{border:none!important;outline:none!important;box-shadow:none!important}
+#scrDoc .input_wrap .eyes{cursor:pointer;position:absolute; right:15px;top:50%; transform:translateY(-50%);z-inex:101}
+#scrDoc button{width:90px;height:57px;border-radius:0 6px 6px 0;border:none;font-size:15px;font-weight:500;color:#fff;background:#24324b;font-family:'pretendard'}
