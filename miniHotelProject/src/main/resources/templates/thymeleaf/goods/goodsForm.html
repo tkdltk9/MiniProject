@@ -4,16 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
-body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+.w3-bar-block .w3-bar-item {padding:20px}
+#wrapper {
+    padding-top: 40px; /* Navbar 높이만큼 추가 */
+}
 .w3-quarter img{margin-bottom: -6px; cursor: pointer}
 .w3-quarter img:hover{opacity: 0.6; transition: 0.3s}
+
 </style>
 <title>Insert title here</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript" src="/static/js/check.js"></script>
 <script type="text/javascript">
@@ -21,70 +27,99 @@ $(function(){
 	$("#sample4_roadAddress").click(function(){
 		execDaumPostcode();
 	});
+	$("#btn").click(function(){
+		///form에 있는 데이터를 가져오기
+		var formData = new FormData($("#frm")[0]);
+		$.ajax({
+			type:"post",
+			url:"goodsWrite", 
+			data: formData,
+			enctype:"multipart/form-data",
+			contentType : false,
+			processData : false,
+			success:function(result){
+				if(result == 200){
+					location.href="goodsList";
+				}else{
+					$("#writeForm").html(result);
+				}
+			},
+			error:function(){
+				alert("로그인을 다시 시도해 주세요.");
+				/* location.href="/"; */
+			}
+		});
+	});
 });
 </script>
 </head>
 <body class="w3-light-grey">
-<!-- Contact section -->
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="#home" class="w3-bar-item w3-button"><b>숙소</b> 등록</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="/" class="w3-bar-item w3-button">Home</a>
+      <a href="#" onclick="history.back()" class="w3-bar-item w3-button">Back</a>
+    </div>
+  </div>
+</div>
+<div id="wrapper">
+    <!-- Contact section -->
   <div class="w3-container w3-light-grey w3-padding-32 w3-padding-large" id="contact" >
     <div class="w3-content" style="max-width:600px">
       <h4 class="w3-center"><b>숙소 등록하기</b></h4>
-      <form action="goodsInsert" method="post" th:object="${goodsCommand}" id="frm">
+      <form action="goodsWrite" method="post" th:object="${goodsCommand}" id="frm">
       	<div class="w3-section">
-          <label>숙소번호</label>
-          <input class="w3-input w3-border" type="text" name="goodsNum" th:value="${employeeCommand.goodsNum}" readonly="readonly">
+          <label>숙소 번호</label>
+          <input class="w3-input w3-border" type="text" name="goodsNum" th:value="${goodsCommand.goodsNum}" readonly="readonly">
         </div>
         <div class="w3-section">
           <label>이름</label>
-          <input class="w3-input w3-border" type="text" name="empName" th:value="${employeeCommand.empName}" >
-          <span style="color:red" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span>
+          <input class="w3-input w3-border" type="text" name="goodsName" th:value="${goodsCommand.goodsName}" >
+          <span style="color:red" th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}"></span>
         </div>
         <div class="w3-section">
-          <label>아이디</label>
-          <input class="w3-input w3-border" type="text" name="empId"  th:value="${employeeCommand.empId }">
-          <span style="color:red" th:if="${#fields.hasErrors('empId')}"th:errors="*{empId}"></span>
+          <label>가격</label>
+          <input class="w3-input w3-border" type="text" name="goodsPrice"  th:value="${goodsCommand.goodsPrice}">
+          <span style="color:red" th:if="${#fields.hasErrors('goodsPrice')}"th:errors="*{goodsPrice}"></span>
+        </div>
+         <div class="w3-section">
+          <label>지역</label>
+          <input class="w3-input w3-border" type="text" name="hotelLocation"  th:value="${goodsCommand.hotelLocation}">
         </div>
         <div class="w3-section">
-          <label>비밀번호</label>
-          <input class="w3-input w3-border" type="password" name="empPw" >
-          <span style="color:red" th:if="${#fields.hasErrors('empPw')}" th:errors="*{empPw}"></span>
+          <label>숙소 설명</label>
+          <textarea rows="5" cols="60" class="w3-input w3-border" name="goodsContents">[[${goodsCommand.goodsContents}]]</textarea>
+          <span style="color:red" th:if="${#fields.hasErrors('goodsContents')}" th:errors="*{goodsContents}"></span>
         </div>
         <div class="w3-section">
-          <label>비밀번호 확인</label>
-          <input class="w3-input w3-border" type="password" name="empPwCon" >
-          <span style="color:red" th:if="${#fields.hasErrors('empPwCon')}" th:errors="*{empPwCon}"></span>
-        </div>
-        <div class="w3-section">
-          <label>호스트주소</label>
-          <input class="w3-input w3-border" type="text" name="empAddr" id="sample4_roadAddress" th:value="${employeeCommand.empAddr }" readonly="readonly">
-				<span style="color:red" th:if="${#fields.hasErrors('empAddr')}" th:errors="*{empAddr}">
+          <label>숙소 주소</label>
+          <input class="w3-input w3-border" type="text" name="hotelAddr" id="sample4_roadAddress" th:value="${goodsCommand.hotelAddr}" readonly="readonly">
+				<span style="color:red" th:if="${#fields.hasErrors('hotelAddr')}" th:errors="*{hotelAddr}">
         </div>
         <div class="w3-section">
           <label>상세주소</label>
-          <input class="w3-input w3-border" type="text" name="empAddrDetail" th:value="${employeeCommand.empAddrDetail }">
+          <input class="w3-input w3-border" type="text" name="hotelAddrDetail" th:value="${goodsCommand.hotelAddrDetail}">
         </div>
         <div class="w3-section">
           <label>우편번호</label>
-          <input class="w3-input w3-border" type="text" name="empPost" id="sample4_postcode" th:value="${employeeCommand.empPost }" readonly="readonly">
+          <input class="w3-input w3-border" type="text" name="hotelPost" id="sample4_postcode" th:value="${goodsCommand.hotelPost}" readonly="readonly">
         </div>
         <div class="w3-section">
-          <label>전화번호</label>
-          <input class="w3-input w3-border" type="tel" name="empPhone" th:value="${employeeCommand.empPhone }">
-          <span style="color:red" th:if="${#fields.hasErrors('empPhone')}" th:errors="*{empPhone}"></span>
+          <label>대표 이미지</label>
+          <input class="w3-input w3-border" type="file" name="goodsMainImage">
         </div>
         <div class="w3-section">
-          <label>주민번호</label>
-          <input class="w3-input w3-border" type="text" name="empJumin" th:value="${employeeCommand.empJumin }">
-          <span style="color:red" th:if="${#fields.hasErrors('empJumin')}"  th:errors="*{empJumin}"></span>
+          <label>숙소 사진</label>
+          <input class="w3-input w3-border" type="file" name="goodsDetailImage" multiple="multiple">
         </div>
-        <div class="w3-section">
-          <label>이메일</label>
-          <input class="w3-input w3-border" type="email" name="empEmail" th:value="${employeeCommand.empEmail }">
-          <span style="color:red" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></span>
-        </div>
-        <button type="submit" class="w3-button w3-block w3-black w3-margin-bottom">가입하기</button>
+        <input type="button" class="w3-button w3-block w3-black w3-margin-bottom" id="btn" value="숙소 등록" />
       </form>
     </div>
   </div>
+</div>
+
 </body>
 </html>

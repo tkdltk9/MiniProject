@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="#home" class="w3-bar-item w3-button">Host Info</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="/" class="w3-bar-item w3-button">Home</a>
+      <a href="/login/logout" class="w3-bar-item w3-button">LogOut</a>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+  <!-- Menu Section -->
+  <div class="w3-row w3-padding-64" id="menu">
+  	<h1 class="w3-center">[[${goodsCommand.goodsName}]]정보</h1><br>
+    <div class="w3-col l6 w3-padding-large">
+      <h4>숙소 번호</h4>
+      <p class="w3-text-grey">[[${goodsCommand.goodsNum}]]</p>
+    
+      <h4>숙소 이름</h4>
+      <p class="w3-text-grey">[[${goodsCommand.goodsName}]]</p>
+    
+      <h4>가격</h4>
+      <p class="w3-text-grey">[[${goodsCommand.goodsPrice}]]</p>
+    
+      <h4>주소</h4>
+      <p class="w3-text-grey">([[${goodsCommand.hotelPost}]]), [[${goodsCommand.hotelAddr}]]<br>
+      						[[${goodsCommand.hotelAddrDetail}]]</p>
+    
+      <h4>숙소 설명</h4>
+      <p class="w3-text-grey"><span  th:utext="${#strings.replace(goodsCommand.goodsContents, newLine, '<br />')}"></span></p>
+      
+      <h4>조회수</h4>
+      <p class="w3-text-grey">[[${goodsCommand.visitCount}]]</p>  
+       
+      <h4>호스트</h4>
+      <p class="w3-text-grey">[[${goodsCommand.empNum}]]</p>  
+       
+      <h4>등록일</h4>
+      <p class="w3-text-grey">[[${#dates.format(goodsCommand.empHireDate, 'yyyy-MM-dd')}]]</p>  
+       
+      <p><button class="w3-button w3-light-grey w3-section" type="button" 
+      		th:attr="onclick=|javascript:location.href='/myPage/empUpdate'|" >내 정보 수정</button>
+      	<button class="w3-button w3-light-grey w3-section" type="button" 
+      		th:attr="onclick=|javascript:location.href='/myPage/empDrop'|">호스트 탈퇴</button></p> 
+    </div>
+    
+    <div class="w3-col l6 w3-padding-large">
+      <img src="/static/images/karina.jpeg" class="w3-round w3-image w3-opacity-min" alt="ProfileImg" style="width:100%">
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+</body>
+</html>

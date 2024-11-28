@@ -29,4 +29,5 @@ public class GoodsCommand {
 	String hotelAddr;  
 	String hotelAddrDetail;
 	String hotelPost; 
+	String hotelLocation;
 }

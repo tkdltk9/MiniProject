@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniHotelProject.mapper.GoodsMapper">
+	<sql id="goodsColumnsBase">
+	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
+	  , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE 
+	  , visit_count ,update_Emp_Num , goods_Update_Date
+	  , hotel_addr, hotel_addr_detail, hotel_post, hotel_location
+	</sql>
+	<insert id="goodsInsert" parameterType="goodsDTO">
+		insert into goods( <include refid="goodsColumnsBase" />)
+		values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
+		,#{empNum}, sysdate, #{goodsMainImage}, #{goodsMainStoreImage}
+		<if test="goodsDetailImage != null">
+		, #{goodsDetailImage} , #{goodsDetailStoreImage}
+		</if>
+		<if test="goodsDetailImage == null">
+		,null, null
+		</if>
+		, 0, null, null
+		, #{hotelAddr}, #{hotelAddrDetail}, #{hotelPost}, #{hotelLocation})
+	</insert>
+	
+	<select id="goodsSelectList" resultType="goodsDTO">
+		select <include refid="goodsColumnsBase" /> from goods
+	</select>
+	
+	<select id="goodsSelectOne" parameterType="string" resultType="goodsDTO">
+		select <include refid="goodsColumnsBase" /> from goods
+		where goods_num = #{goodsNum}
+	</select>
+</mapper>

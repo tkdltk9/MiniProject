@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Alias("goods")
+@Alias("goodsDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsDTO {
@@ -33,5 +33,6 @@ public class GoodsDTO {
 	String hotelAddr;  
 	String hotelAddrDetail;
 	String hotelPost; 
+	String hotelLocation;
 	
 }

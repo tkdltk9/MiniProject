@@ -35,16 +35,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <div class="w3-container w3-padding-32" id="about">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">숙소 리스트</h3>
     <div class="w3-row-padding w3-grayscale">
-    	<th:block >
+    	<th:block th:each="dto : ${list}">
 		    <div class="w3-col l3 m6 w3-margin-bottom">
-		      <img src="/static/images/karina.jpeg" alt="John" style="width:100%">
-		      <h3></h3>
-		      <p class="w3-opacity"></p>
-		      <p>아이디 :  <br>
-		      	등록일 :  <br>
-		      	연락처 : </p>
+		      <img th:src="|/static/upload/${dto.goodsMainStoreImage}|" alt="mainImage" style="width:100%">
+		      <h3>[[${dto.goodsName}]]</h3>
+		      <p class="w3-opacity">[[${#numbers.formatCurrency(dto.goodsPrice, )}]] 원</p>
+		      <p>[[${dto.empNum}]]님의 숙소<br>
+		      	지역 : [[${dto.hotelLocation}]] <br>
+		      	등록일 : [[${#dates.format(dto.goodsRegist, 'yyyy-MM-dd')}]]</p>
 		      <p><button type="button" class="w3-button w3-light-grey w3-block" 
-		      	th:attr="onclick=|javascript:location.href=''|">숙소 상세보기</button></p>
+		      	th:attr="onclick=|javascript:location.href='goodsDetail?goodsNum=${dto.goodsNum}'|">숙소 상세보기</button></p>
 		    </div>
 		</th:block>
 	  </div>
