@@ -1,11 +1,17 @@
 package miniHotelProject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 import miniHotelProject.command.LoginCommand;
 import miniHotelProject.domain.AuthInfoDTO;
 import miniHotelProject.mapper.LoginMapper;
+import miniHotelProject.service.goods.MainGoodsListService;
 
 
 @Controller
@@ -24,6 +31,8 @@ public class MiniHotelProjectApplication {
 	}
 	@Autowired
 	LoginMapper loginMapper;
+	@Autowired
+	MainGoodsListService mainGoodsListService;
 	@GetMapping("/")
 	public String index(LoginCommand loginCommand, Model model, HttpServletRequest req) {
 			//, @RequestParam(value="page", required = false, defaultValue = "1") Integer page
@@ -46,5 +55,13 @@ public class MiniHotelProjectApplication {
         }
         return "thymeleaf/index";
 	}
+	@PostMapping("/")
+	@ResponseBody
+	public Map<String, Object> index(@RequestParam("page") Integer page) {
+	    Map<String, Object> response = new HashMap<>();
+	    mainGoodsListService.execute(page, response); // Map에 데이터 저장
+	    return response; // JSON 반환
+	}
+
 	
 }

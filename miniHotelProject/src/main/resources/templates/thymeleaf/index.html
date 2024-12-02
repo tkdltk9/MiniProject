@@ -6,9 +6,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="/static/css/searchform.css">
+<script type="text/javascript" src="/static/js/money.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+var page = 0;
+$(function(){
+	loadMoreItems();
+	$("#load-more").click(loadMoreItems);
+});
+function loadMoreItems() {
+    page++;
+    $.ajax({
+        url: "/",
+        type: "post",
+        data: { "page": page },
+        dataType: "json",
+        success: function(response) {
+            console.log("서버 응답 데이터:", response); // 응답 확인
+            var item = '';
+            item += '<div class="w3-row-padding w3-padding-16 w3-center" id="food">';
+            $.each(response.list, function(index, dto) {
+                console.log("dto 데이터:", dto); // 각 항목 디버깅
+                item += '<div class="w3-quarter">';
+                item += '<a href="/corner/detailView?goodsNum='+ dto.goodsNum +'">';
+                item += '<img src="/static/upload/' + dto.goodsMainStoreImage + '" width="100%" />';
+                item += '<h3>' + dto.goodsName + '</h3>';
+                item += '<p>' + dto.hotelLocation + '</p></a>';
+                item += formatter.format(dto.goodsPrice) + '/박';
+                item += '</div>';
+            });
+            item += '</div>';
+            $("#content").append(item);
+
+            // "더보기" 버튼 제어
+            if (response.maxPage <= page) {
+                $("#load-more").css("display", "none");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Ajax 에러:", error); // 에러 로그
+        }
+    });
+}
+
+</script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 .w3-bar-block .w3-bar-item {padding:20px}
+.input-container {
+    display: flex;
+    align-items: center; /* 버튼과 인풋 필드를 세로로 정렬 */
+    gap: 10px; /* 인풋 필드와 버튼 사이 간격 */
+  }
+
+  .input-container input {
+    flex: 1; /* 인풋 필드가 버튼보다 더 많은 공간을 차지하도록 설정 */
+  }
+
+  .input-container button {
+    white-space: nowrap; /* 버튼 텍스트 줄바꿈 방지 */
+  }
 </style>
 </head>
 <body>
@@ -54,11 +112,23 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Ya</b></span> <span class="w3-hide-small w3-text-light-grey">Nolgga</span></h1>
   </div>
 </header>
-  
+
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
-
+  <!-- Newsletter -->
+  <div class="w3-container">
+  <div class="w3-panel w3-padding-16 w3-black w3-opacity w3-card w3-hover-opacity-off">
+    <h2 align="center">숙소 검색</h2>
+    <div class="input-container">
+      <input class="w3-input w3-border" type="text" placeholder="원하는 지역을 검색하세요.">
+      <button type="button" class="w3-button w3-red">검색</button>
+    </div>
+  </div>
+  </div>
   <!-- First Photo Grid-->
+  <div id="content">
+
+  <!-- 
   <div class="w3-row-padding w3-padding-16 w3-center" id="food">
     <div class="w3-quarter">
       <img src="/static/images/winter.jpeg" alt="Popsicle" style="width:100%">
@@ -70,19 +140,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <h3>All I Need Is a Popsicle</h3>
       <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
     </div>
-    <div class="w3-quarter">
-      <img src="/static/images/winter.jpeg" alt="Popsicle" style="width:100%">
-      <h3>All I Need Is a Popsicle</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    <div class="w3-quarter">
-      <img src="/static/images/winter.jpeg" alt="Popsicle" style="width:100%">
-      <h3>All I Need Is a Popsicle</h3>
-      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-  </div>
+    
   
-  <!-- Pagination -->
+  <!-- Pagination
   <div class="w3-center w3-padding-32">
     <div class="w3-bar">
       <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
@@ -92,11 +152,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
       <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
     </div>
-  </div>
+  </div> 
+  </div> -->
   
-
-</div>
-
+  </div>
+  <table align="center" width="900">
+	<tr><th><button id="load-more">더보기</button></th></tr>
+  </table>
 <script>
 // Script to open and close sidebar
 function w3_open() {

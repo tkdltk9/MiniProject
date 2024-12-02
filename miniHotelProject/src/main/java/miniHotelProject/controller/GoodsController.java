@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import miniHotelProject.command.GoodsCommand;
 import miniHotelProject.service.AutoNumService;
+import miniHotelProject.service.goods.GoodsDeleteService;
 import miniHotelProject.service.goods.GoodsDetailService;
 import miniHotelProject.service.goods.GoodsListService;
+import miniHotelProject.service.goods.GoodsUpdateService;
 import miniHotelProject.service.goods.GoodsWriteService;
+
 
 
 
@@ -32,6 +36,10 @@ public class GoodsController {
 	GoodsListService goodsListService;
 	@Autowired
 	GoodsDetailService goodsDetailService;
+	@Autowired
+	GoodsUpdateService goodsUpdateService;
+	@Autowired
+	GoodsDeleteService goodsDeleteService;
 	@GetMapping("goodsList")
 	public String goodsList(Model model) {
 		goodsListService.execute(model);
@@ -62,6 +70,29 @@ public class GoodsController {
 		session.removeAttribute("fileList");
 		goodsDetailService.execute(goodsNum, model);
 		return "thymeleaf/goods/goodsInfo";
+	}
+	@GetMapping("goodsModify")
+	public String goodsModify(@RequestParam("goodsNum") String goodsNum
+			,Model model,HttpSession session) {
+		session.removeAttribute("fileList");
+		goodsDetailService.execute(goodsNum, model);
+		return "thymeleaf/goods/goodsUpdate";
+	}
+	@PostMapping("goodsUpdate")
+	public String goodsUpdate(@Validated GoodsCommand goodsCommand
+			, BindingResult result
+			, HttpSession session
+			, Model model) {
+		goodsUpdateService.execute(goodsCommand, result, session, model);
+		if(result.hasErrors()) {
+			return "thymeleaf/goods/goodsUpdate";
+		}
+		return "redirect:goodsDetail?goodsNum=" + goodsCommand.getGoodsNum();
+	}
+	@GetMapping("goodsDelete")
+	public String goodsDelete(@RequestParam("goodsNum") String goodsNum) {
+		goodsDeleteService.execute(goodsNum);
+		return "redirect:goodsList";
 	}
 	
 }

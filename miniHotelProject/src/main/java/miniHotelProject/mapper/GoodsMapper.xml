@@ -32,4 +32,72 @@
 		select <include refid="goodsColumnsBase" /> from goods
 		where goods_num = #{goodsNum}
 	</select>
+	
+	<update id="goodsUpdate" parameterType="goodsDTO">
+		update goods 
+		<trim prefix="set" suffixOverrides=",">
+			GOODS_NAME = #{goodsName}, GOODS_PRICE = #{goodsPrice}
+			, GOODS_CONTENTS = #{goodsContents}
+		    , update_emp_num = #{updateEmpNum}, goods_update_date = sysdate
+		    , hotel_addr = #{hotelAddr}, hotel_addr_detail = #{hotelAddrDetail}
+		    , hotel_post = #{hotelPost}, hotel_location = #{hotelLocation}
+		    <if test="goodsMainImage != null" >
+			    , GOODS_MAIN_IMAGE = #{goodsMainImage}
+			    , GOODS_MAIN_STORE_IMAGE = #{goodsMainStoreImage}
+		    </if>
+		    <if test="goodsDetailImage != null">
+			    , GOODS_DETAIL_IMAGE = #{goodsDetailImage}
+			    , GOODS_DETAIL_STORE_IMAGE = #{goodsDetailStoreImage}
+		    </if>
+		</trim>
+		where goods_num = #{goodsNum}
+	</update>
+	
+	<delete id="goodsDelete" parameterType="string">
+		delete from goods
+		where goods_num = #{goodsNum}
+	</delete>
+	
+	<resultMap type="goodsDTO" id="goodsResultMap">
+		<constructor>
+			<idArg column="goods_Num" jdbcType="VARCHAR" javaType="string"/>
+			<arg column="goods_Name" jdbcType="VARCHAR" javaType="string" />
+			<arg column="GOODS_PRICE" jdbcType="BIGINT" javaType="integer" />
+			<arg column="goods_Contents" javaType="string" jdbcType="VARCHAR" />
+			<arg column="emp_Num" javaType="string" jdbcType="VARCHAR" />
+			<arg column="visit_Count" javaType="integer" jdbcType="BIGINT" />
+			<arg column="goods_Regist" javaType="java.util.Date" jdbcType="DATE" />
+			<arg column="update_Emp_Num" javaType="string" jdbcType="VARCHAR" />
+			<arg column="goods_Update_Date" javaType="java.util.Date" jdbcType="DATE" />
+			<arg column="GOODS_MAIN_IMAGE" javaType="string" jdbcType="VARCHAR" />
+			<arg column="GOODS_MAIN_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />
+			<arg column="GOODS_DETAIL_IMAGE" javaType="string" jdbcType="VARCHAR" />
+			<arg column="GOODS_DETAIL_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />
+			<arg column="HOTEL_ADDR" javaType="string" jdbcType="VARCHAR" />
+			<arg column="HOTEL_ADDR_DETAIL" javaType="string" jdbcType="VARCHAR" />
+			<arg column="HOTEL_POST" javaType="string" jdbcType="VARCHAR" />
+			<arg column="HOTEL_LOCATION" javaType="string" jdbcType="VARCHAR" />
+		</constructor>
+	</resultMap> 
+	
+	<select id="goodsMainSelect" resultMap="goodsResultMap">
+		select * from(
+			select row_number() over(order by goods_num desc) as rn
+		    , GOODS_NUM ,GOODS_NAME, GOODS_PRICE, GOODS_CONTENTS, VISIT_COUNT
+		    , GOODS_MAIN_IMAGE, GOODS_MAIN_STORE_IMAGE, GOODS_DETAIL_IMAGE, GOODS_DETAIL_STORE_IMAGE
+		    , EMP_NUM, GOODS_REGIST, UPDATE_EMP_NUM, GOODS_UPDATE_DATE
+		    , HOTEL_ADDR, HOTEL_ADDR_DETAIL, HOTEL_POST, HOTEL_LOCATION
+		    from goods) 
+		where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="goodsCount" parameterType="string" resultType="integer">
+		select count(*) from goods
+		<where>
+			<if test="searchWord != null">
+				goods_name like '%' || #{searchWord} || '%'
+				or goods_num like '%' || #{searchWord} || '%'
+			</if>
+		</where>
+	</select>
 </mapper>

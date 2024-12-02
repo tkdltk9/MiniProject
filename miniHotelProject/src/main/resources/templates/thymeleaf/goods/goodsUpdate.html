@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="/static/js/daumAddressScript.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="/static/js/check.js"></script>
+<link rel="stylesheet" href="/static/css/form.css" />
+<style>
+  body {
+    padding-top: 60px; /* 헤더 높이만큼 여백 추가 */
+  }
+</style>
+<script type="text/javascript">
+function fileDel(btn, orgFile, storeFile, kind){
+	$.ajax({
+		type :'post',
+		url : "/file/fileDel",
+		data : {"orgFile": orgFile , "storeFile" : storeFile},
+		dataType : 'text',
+		success : function(result){
+			if(result == "1"){
+				$(btn).text("삭제취소");
+				if(kind == 'main'){
+					$("#main").css("display","none");
+					$("#mainFile").html("<input type='file' name='goodsMainImage' />");
+				}
+			}else{
+				$(btn).text("삭제");
+				if(kind == 'main'){
+					$("#main").css("display","");
+					$("#mainFile").html("");
+				}
+			}
+		},
+		error:function(){
+			alert("서버오류");
+		}
+	});
+}
+function fileChk(){
+	let fileInput = $("input[name='goodsMainImage']");
+	// 파일 입력 필드가 있고 파일이 선택되지 않은 경우
+	if (fileInput.length > 0 && !fileInput[0].files.length){
+		alert("파일을 선택해주세요.");
+		return false; // 유효성 검사 실패 시 요청 중단
+	}
+}
+$(function(){
+	$("#sample4_roadAddress").click(function(){
+		execDaumPostcode();
+	});
+});
+</script>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="#home" class="w3-bar-item w3-button">숙소 정보 수정</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="/" class="w3-bar-item w3-button">Home</a>
+      <a href="#" onclick="history.back()" class="w3-bar-item w3-button">Back</a>
+    </div>
+  </div>
+</div>
+<form action="goodsUpdate" method="post" name="frm" th:object="${goodsCommand}" enctype="multipart/form-data"
+	onsubmit="return fileChk();">
+	<div class="form-caption-wrapper">
+	    <p class="form-caption">숙소 정보수정</p>
+	    <div class="form-wrapper">
+	        <form class="whatsapp-form">
+	        	<div class="datainput">
+	                <input type="text" name="goodsNum"  th:field="*{goodsNum}"  readonly="readonly"/>
+	                <label for="goodsNum">숙소번호</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="goodsName" th:field="*{goodsName}" />
+	                <span style="color:red" th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}"></span>
+	                <label for="goodsName">숙소이름</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="number" name="goodsPrice" th:field="*{goodsPrice}"  />
+					<span style="color:red" th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}"></span>
+	                <label for="goodsPrice">가격</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="hotelLocation" th:field="*{hotelLocation}"  />
+	                <label for="hotelLocation">숙소지역</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <textarea rows="5" cols="50" name="goodsContents">[[${goodsCommand.goodsContents}]]</textarea>
+					<span style="color:red" th:if="${#fields.hasErrors('goodsContents')}" th:errors="*{goodsContents}"></span></span>
+	                <label for="goodsContents">숙소설명</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="hotelAddr" id="sample4_roadAddress" th:value="${goodsCommand.hotelAddr}" readonly="readonly"/>
+					<span style="color:red" th:if="${#fields.hasErrors('hotelAddr')}" th:errors="*{hotelAddr}"></span>
+	                <label for="hotelAddr">숙소주소</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="hotelAddrDetail" th:value="${goodsCommand.hotelAddrDetail}"/>
+	                <label for="hotelAddrDetail">상세주소</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	                <input type="text" name="hotelPost" id="sample4_postcode" readonly th:value="${goodsCommand.hotelPost}"/>
+	                <label for="hotelPost">우편번호</label>
+	                <div class="bar"></div>
+	            </div>
+	            <div class="datainput">
+	            	<label for="goodsMainImage">대문이미지</label>
+	                <div class="bar"></div>
+	                <span id="mainFile"></span>
+					<span id="main">[[${goodsCommand.goodsMainImage}]]</span> <button type="button" 
+						th:attr="onclick=|javascript:fileDel(this
+						, '${goodsCommand.goodsMainImage}'
+						, '${goodsCommand.goodsMainStoreImage}','main');|">삭제</button>
+	                
+	            </div>
+	            <div class="datainput">
+	                <div th:each="image, idx : ${#strings.arraySplit(goodsCommand.goodsDetailImage, '[`/]')}">[[${image}]]
+						<button type="button"
+							th:attr="onclick=|javascript:fileDel(this, '${image}', 
+							'${#strings.arraySplit(goodsCommand.goodsDetailStoreImage, '[`/]')[idx.index]}');|">삭제</button>
+					</div>
+	                <input type="file" name="goodsDetailImage" id="goodsDetailImage" multiple="multiple" />
+					
+	                <label for="goodsDetailImage">상세이미지</label>
+	                <div class="bar"></div>
+	            </div>
+	            <button class="button"><b>수정 완료</b></button>
+	        </form>
+	    </div>
+	</div>
+</form>
+</html>
