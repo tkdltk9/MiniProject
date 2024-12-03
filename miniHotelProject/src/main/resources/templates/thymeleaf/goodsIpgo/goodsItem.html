@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>숙소 검색</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+function goodsItem(element) {
+    // 데이터 속성에서 값을 가져옴
+    const goodsNum = element.dataset.goodsnum;
+    const goodsName = element.dataset.goodsname;
+
+    // 부모 창의 input 필드에 값 설정
+    $(opener.document).find("#goodsNum").val(goodsNum);
+    $(opener.document).find("#goodsName").val(goodsName);
+
+    // 팝업 창 닫기
+    window.self.close();
+}
+</script>
+</head>
+<body>
+<table border="1" width="600" align="center">
+    <thead>
+        <tr>
+            <th>숙소번호</th>
+            <th>숙소이름</th>
+            <th>숙소가격</th>
+            <th>등록일</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="dto : ${list}">
+            <td>
+                <a href="javascript:void(0);"
+                   th:data-goodsnum="${dto.goodsNum}"
+                   th:data-goodsname="${dto.goodsName}"
+                   onclick="goodsItem(this)">
+                   [[${dto.goodsNum}]]
+                </a>
+            </td>
+            <td>[[${dto.goodsName}]]</td>
+            <td>[[${dto.goodsPrice}]]</td>
+            <td>[[${#dates.format(dto.goodsRegist, 'yyyy-MM-dd')}]]</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

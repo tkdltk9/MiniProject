@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniHotelProject.mapper.GoodsIpgoMapper">
+	<sql id="goodsIpgoBaseCalumns">
+		GOODS_NUM, IPGO_NUM, IPGO_QTY, IPGO_DATE, MADE_DATE, IPGO_PRICE, EMP_NUM
+	</sql>
+
+	<insert id="goodsIpgoInsert" parameterType="ipgoDTO">
+		insert into goods_ipgo(<include refid="goodsIpgoBaseCalumns"/>) 
+		values(#{goodsNum}, #{ipgoNum}, #{ipgoQty}, #{ipgoDate}
+		, null, #{ipgoPrice}, #{empNum})
+	</insert>
+
+	<select id="goodsIpgoList" resultType="ipgoDTO">
+		select <include refid="goodsIpgoBaseCalumns"/> from goods_ipgo
+	</select>
+	
+	<select id="ipgoGoodsSelectOne" resultType="goodsIpgoNameDTO">
+		select ip.GOODS_NUM, IPGO_NUM, IPGO_QTY, IPGO_DATE, MADE_DATE, IPGO_PRICE, ip.EMP_NUM, GOODS_NAME
+		from goods_ipgo ip join goods g
+		on ip.GOODS_NUM = g.GOODS_NUM
+		where ip.GOODS_NUM = #{goodsNum} and IPGO_NUM = #{ipgoNum}
+	</select>
+</mapper>

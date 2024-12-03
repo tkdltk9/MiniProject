@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel="stylesheet" href="/static/css/table.css">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#btn").click(function(){
+		window.open("goodsItem","상품검색"
+				,"width=620,height=500,left=30, top=500" );
+	});
+});
+</script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-white w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>숙소 입고</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">홈</a> 
+    <a href="/goods/goodsForm" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">숙소 추가</a> 
+    <a href="goodsIpgo" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">숙소 입고</a> 
+    <a href="goodsIpgoList" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">숙소 입고 현황</a> 
+    <a href="/goods/goodsList" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">숙소 목록</a> 
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-black w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-black w3-margin-right" onclick="w3_open()">☰</a>
+  <span>숙소 입고</span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Services -->
+  <div class="w3-container" id="services" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-black"><b>숙소 입고</b></h1>
+    <hr style="width:50px;border:5px solid black" class="w3-round">
+    <form action="ipgoRegist" method="post" id="frm" >
+    <table>
+	    <thead>
+	    <tr><th colspan="2">숙소 입고</th> </tr>
+	    </thead>
+	    <tbody>
+	    <tr><td>입고번호</td>
+	        <td><input type="text" name= "ipgoNum" id="ipgoNum" th:value="${goodsIpgoCommand.ipgoNum}" /></td></tr>
+	    <tr><td>숙소번호</td>
+	        <td><input type="text" name= "goodsNum" id="goodsNum" readonly="readonly" />
+	        	<input type="button" id="btn" value="상품 검색" /></td></tr>
+	    <tr><td>숙소명</td>
+	        <td><input type="text"  id="goodsName" readonly="readonly" /></td> </tr>
+	    <tr><td>입고일</td>
+	        <td><input type="date" name= "ipgoDate" id="ipgoDate" /></td></tr>
+	    <tr><td>객실 수</td>
+	        <td><input type="number" name= "ipgoQty" id="ipgoQty" min="0"/></td></tr>
+	    <tr><td>가격</td>
+	        <td><input type="number" name= "ipgoPrice" id="ipgoPrice" min="0"/></td></tr>
+	    </tbody>
+	    <tfoot>
+	    <tr><th colspan="2"><input type="submit" value="입고 등록" id="regist"/></th></tr>
+	    </tfoot>
+  	</table>
+    </form>
+  </div>
+<!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
