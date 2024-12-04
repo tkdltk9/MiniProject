@@ -10,9 +10,13 @@ import miniHotelProject.domain.GoodsIpgoNameDTO;
 
 @Mapper
 public interface GoodsIpgoMapper {
-	public void goodsIpgoInsert(GoodsIpgoDTO dto);
+	public Integer goodsIpgoInsert(GoodsIpgoDTO dto);
 	public List<GoodsIpgoDTO> goodsIpgoList();
 	public GoodsIpgoNameDTO ipgoGoodsSelectOne(
+			@Param("ipgoNum") String ipgoNum
+			, @Param("goodsNum") String goodsNum);
+	public Integer goodsIpgoUpdate(GoodsIpgoDTO dto);
+	public Integer goodsIpgoDelete(
 			@Param("ipgoNum") String ipgoNum
 			, @Param("goodsNum") String goodsNum);
 

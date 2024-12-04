@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<link rel="stylesheet" href="/static/css/table.css">
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
 body {font-size:16px;}
@@ -48,25 +47,18 @@ body {font-size:16px;}
     <h1 class="w3-xxxlarge w3-text-black"><b>입고 현황 상세정보</b></h1>
     <hr style="width:50px;border:5px solid black" class="w3-round">
     <p><b>[[${dto.goodsName}]]</b> 입고 현황</p>
-    <table>
-	    <thead>
-	    <tr>
-	        <th>입고번호</th>
-	        <th>숙소번호</th>
-	        <th>숙소이름</th>
-	        <th>수량</th>
-	        <th>가격</th>
-	        <th>입고일</th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	    <tr><td>[[${dto.goodsIpgoDTO.ipgoNum}]]</td>
-			<td>[[${dto.goodsIpgoDTO.goodsNum}]]</td>
-			<td>[[${dto.goodsName}]]</td>
-			<td>[[${dto.goodsIpgoDTO.ipgoQty}]]</td>
-			<td>[[${#numbers.formatCurrency(dto.goodsIpgoDTO.ipgoPrice) + "원" }]]</td>
-			<th>[[${#dates.format(dto.goodsIpgoDTO.ipgoDate,'yyyy-MM-dd')}]]</th></tr>
-	    </tbody>
+    <table width="600" height="300" border="1" >
+	    <tr><th>입고번호</th><td>[[${dto.goodsIpgoDTO.ipgoNum}]]</td></tr>
+	    <tr><th>숙소번호</th><td>[[${dto.goodsIpgoDTO.goodsNum}]]</td></tr>
+	    <tr><th>숙소이름</th><td>[[${dto.goodsName}]]</td></tr>
+	    <tr><th>수량</th><td>[[${dto.goodsIpgoDTO.ipgoQty}]]</td></tr>
+	    <tr><th>가격</th><td>[[${#numbers.formatCurrency(dto.goodsIpgoDTO.ipgoPrice) + "원" }]]</td></tr>
+	    <tr><th>입고일</th><td>[[${#dates.format(dto.goodsIpgoDTO.ipgoDate,'yyyy-MM-dd')}]]</td></tr>
+	    <tr><th colspan="2"><button type='button' 
+	    	th:attr="onclick=|javascript:location.href='goodsIpgoUpdate?ipgoNum=${dto.goodsIpgoDTO.ipgoNum}&goodsNum=${dto.goodsIpgoDTO.goodsNum}'|">입고 수정</button> |
+				<button type='button' 
+			th:attr="onclick=|javascript:location.href='goodsIpgoDelete?ipgoNum=${dto.goodsIpgoDTO.ipgoNum}&goodsNum=${dto.goodsIpgoDTO.goodsNum}'|">입고 삭제</button></th></tr>
+	    
   	</table>
     
   </div>

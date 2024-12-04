@@ -17,10 +17,40 @@
 		select <include refid="goodsIpgoBaseCalumns"/> from goods_ipgo
 	</select>
 	
-	<select id="ipgoGoodsSelectOne" resultType="goodsIpgoNameDTO">
+	<resultMap type="ipgoDTO" id="goodsIpgoResultMap">
+		<constructor>
+			<idArg column="GOODS_NUM" javaType="string"/>
+			<idArg column="IPGO_NUM" javaType="string"/>
+			<arg column="IPGO_QTY" javaType="integer"/>
+			<arg column="IPGO_DATE" javaType="java.util.Date"/>
+			<arg column="MADE_DATE" javaType="java.util.Date"/>
+			<arg column="IPGO_PRICE" javaType="integer"/>
+			<arg column="EMP_NUM" javaType="string"/>
+		</constructor>
+	</resultMap>
+	
+	<resultMap type="goodsIpgoNameDTO" id="goodsIpgoNameResultMap">
+		<result column="goods_name" jdbcType="VARCHAR" javaType="string" property="goodsName"/>
+		<association property="goodsIpgoDTO" javaType="ipgoDTO" resultMap="goodsIpgoResultMap" />
+	</resultMap>
+	
+	<select id="ipgoGoodsSelectOne" resultMap="goodsIpgoNameResultMap">
 		select ip.GOODS_NUM, IPGO_NUM, IPGO_QTY, IPGO_DATE, MADE_DATE, IPGO_PRICE, ip.EMP_NUM, GOODS_NAME
 		from goods_ipgo ip join goods g
 		on ip.GOODS_NUM = g.GOODS_NUM
 		where ip.GOODS_NUM = #{goodsNum} and IPGO_NUM = #{ipgoNum}
 	</select>
+	
+	<update id="goodsIpgoUpdate" parameterType="ipgoDTO">
+		update goods_ipgo set
+		IPGO_QTY = #{ipgoQty}
+		, IPGO_DATE = #{ipgoDate}
+		, IPGO_PRICE = #{ipgoPrice}
+		where IPGO_NUM = #{ipgoNum} and GOODS_NUM = #{goodsNum}
+	</update>
+	
+	<delete id="goodsIpgoDelete">
+		delete from goods_ipgo
+		where IPGO_NUM = #{ipgoNum} and GOODS_NUM = #{goodsNum}
+	</delete>
 </mapper>

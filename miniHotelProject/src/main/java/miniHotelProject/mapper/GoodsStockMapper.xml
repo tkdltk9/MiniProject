@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniHotelProject.mapper.GoodsStockMapper">
+	<resultMap type="goodsStockDTO" id="goodsStockResultMaps">
+		<result column="stock" jdbcType="BIGINT" property="stock"/>
+		<result column="EMP_PHONE" jdbcType="VARCHAR" property="empPhone"/>
+		<result column="EMP_EMAIL" jdbcType="VARCHAR" property="empEmail"/>
+		<association property="goodsDTO" javaType="goodsDTO">
+			<id column="GOODS_NUM" jdbcType="VARCHAR" property="goodsNum"/>
+			<result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName"/>
+			<result column="GOODS_PRICE" jdbcType="BIGINT" property="goodsPrice"/>
+			<result column="GOODS_CONTENTS" jdbcType="VARCHAR" property="goodsContents"/>
+			<result column="VISIT_COUNT" jdbcType="BIGINT" property="visitCount"/>
+			<result column="GOODS_MAIN_IMAGE" jdbcType="VARCHAR" property="goodsMainImage"/>
+			<result column="GOODS_MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="goodsMainStoreImage"/>
+			<result column="GOODS_DETAIL_IMAGE" jdbcType="VARCHAR" property="goodsDetailImage"/>
+			<result column="GOODS_DETAIL_STORE_IMAGE" jdbcType="VARCHAR" property="goodsDetailStoreImage"/>
+			<result column="EMP_NUM" jdbcType="VARCHAR" property="empNum"/>
+			<result column="GOODS_REGIST" jdbcType="DATE" property="goodsRegist"/>
+			<result column="UPDATE_EMP_NUM" jdbcType="VARCHAR" property="updateEmpNum"/>
+			<result column="GOODS_UPDATE_DATE" jdbcType="DATE" property="goodsUpdateDate"/>
+			<result column="HOTEL_ADDR" jdbcType="VARCHAR" property="hotelAddr"/>
+			<result column="HOTEL_ADDR_DETAIL" jdbcType="VARCHAR" property="hotelAddrDetail"/>
+			<result column="HOTEL_POST" jdbcType="VARCHAR" property="hotelPost"/>
+			<result column="HOTEL_LOCATION" jdbcType="VARCHAR" property="hotelLocation"/>
+		</association>
+	</resultMap>
+	
+	<select id="goodsStockSelectOne" parameterType="string" resultMap="goodsStockResultMaps">
+		select g.GOODS_NUM, GOODS_NAME, GOODS_PRICE, GOODS_CONTENTS, VISIT_COUNT, GOODS_MAIN_IMAGE
+		, GOODS_MAIN_STORE_IMAGE, GOODS_DETAIL_IMAGE, GOODS_DETAIL_STORE_IMAGE, g.EMP_NUM, GOODS_REGIST
+		, UPDATE_EMP_NUM, GOODS_UPDATE_DATE, coalesce(stock, 0) as stock
+		, HOTEL_ADDR, HOTEL_ADDR_DETAIL, HOTEL_POST, HOTEL_LOCATION
+		, e.EMP_PHONE, e.EMP_EMAIL
+		from goods g left outer join 
+		(select ip.goods_num, (ipqty - coalesce(plqty,0)) as stock from(select goods_num, sum(ipgo_qty) as ipqty
+		from goods_ipgo 
+		group by goods_num) ip
+		left outer join ( 
+		select goods_num, sum(purchase_qty) plqty from purchase_list
+		group by goods_num) pl on ip.goods_num = pl.goods_num) st
+		on g.goods_num = st.goods_num
+		left outer join employees e
+		on g.emp_num = e.emp_num
+		where g.goods_num = #{goodsNum}
+	</select>
+	
+	<update id="goodsVisitCountUpdate" parameterType="string">
+		update goods set
+		VISIT_COUNT = VISIT_COUNT + 1
+		where GOODS_NUM = #{GOODSNUM}
+	</update>
+</mapper>

@@ -15,8 +15,13 @@ import miniHotelProject.domain.GoodsIpgoNameDTO;
 import miniHotelProject.service.AutoNumService;
 import miniHotelProject.service.goods.GoodsListService;
 import miniHotelProject.service.goodsIpgo.GoodsIpgoService;
+import miniHotelProject.service.goodsIpgo.IpgoDeleteService;
 import miniHotelProject.service.goodsIpgo.IpgoDetailService;
 import miniHotelProject.service.goodsIpgo.IpgoListService;
+import miniHotelProject.service.goodsIpgo.IpgoUpdateService;
+
+
+
 
 
 
@@ -33,6 +38,10 @@ public class GoodsIpgoController {
 	IpgoListService ipgoListService;
 	@Autowired
 	IpgoDetailService ipgoDetailService;
+	@Autowired
+	IpgoUpdateService ipgoUpdateService;
+	@Autowired
+	IpgoDeleteService ipgoDeleteService;
 	@GetMapping("goodsIpgoList")
 	public String goodsIpgoList(Model model) {
 		ipgoListService.execute(model);
@@ -67,6 +76,22 @@ public class GoodsIpgoController {
 	public String goodsIpgoDetail(String ipgoNum, String goodsNum, Model model) {
 		GoodsIpgoNameDTO dto = ipgoDetailService.execute(ipgoNum, goodsNum, model);
 		return "thymeleaf/goodsIpgo/goodsIpgoDetail";
+	}
+	@GetMapping("goodsIpgoUpdate")
+	public String goodsIpgoUpdate(String ipgoNum, String goodsNum, Model model) {
+		GoodsIpgoNameDTO dto = ipgoDetailService.execute(ipgoNum, goodsNum, model);
+		return "thymeleaf/goodsIpgo/goodsIpgoUpdate";
+	}
+	@PostMapping("goodsIpgoModify")
+	public String goodsIpgoModify(GoodsIpgoCommand goodsIpgoCommand) {
+		ipgoUpdateService.execute(goodsIpgoCommand);
+		return "redirect:goodsIpgoDetail?ipgoNum=" + goodsIpgoCommand.getIpgoNum() 
+			+ "&goodsNum=" + goodsIpgoCommand.getGoodsNum();
+	}
+	@GetMapping("goodsIpgoDelete")
+	public String goodsIpgoDelete(String ipgoNum, String goodsNum) {
+		ipgoDeleteService.execute(ipgoNum, goodsNum);
+		return "redirect:goodsIpgoList";
 	}
 	
 }
