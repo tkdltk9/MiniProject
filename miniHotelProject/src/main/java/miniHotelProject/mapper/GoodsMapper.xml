@@ -15,10 +15,10 @@
 		values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 		,#{empNum}, sysdate, #{goodsMainImage}, #{goodsMainStoreImage}
 		<if test="goodsDetailImage != null">
-		, #{goodsDetailImage} , #{goodsDetailStoreImage}
+			, #{goodsDetailImage} , #{goodsDetailStoreImage}
 		</if>
 		<if test="goodsDetailImage == null">
-		,null, null
+			,null, null
 		</if>
 		, 0, null, null
 		, #{hotelAddr}, #{hotelAddrDetail}, #{hotelPost}, #{hotelLocation})

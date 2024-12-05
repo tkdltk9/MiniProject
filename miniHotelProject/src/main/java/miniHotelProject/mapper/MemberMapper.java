@@ -13,5 +13,6 @@ public interface MemberMapper {
 	MemberDTO memberSelectOne(String memberNum);
 	Integer memberUpdate(MemberDTO dto);
 	void memberDelete(String memberNum);
+	String memberNumSelect(String memberId);
 
 }

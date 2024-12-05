@@ -19,8 +19,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4dd4779496effcc384ae8abc36e06c66&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
+$(function() {
+    // 지도 생성 로직
     if (typeof kakao !== "undefined" && kakao.maps) {
         var container = document.getElementById('map'); // 지도를 표시할 div
         var options = {
@@ -48,7 +50,37 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         console.error("Kakao Maps API가 로드되지 않았습니다.");
     }
+
+    // 위시리스트 클릭 이벤트
+    $("#wish").click(function() {
+    	if (![[${#strings.isEmpty(session.auth)}]]) { // 로그인이 되어 있는 경우에만 실행
+    	    var xhr = new XMLHttpRequest();
+    	    xhr.open("POST", "/item/wishItem", true);
+    	    xhr.setRequestHeader("Content-Type", "application/json");
+    	    xhr.onload = function() {
+    	        if (xhr.status == 200) {
+    	            if ($("#wish1").attr("style") == "color: white") {
+    	                $("#wish1").attr("style", "color: red");
+    	            } else {
+    	                $("#wish1").attr("style", "color: white");
+    	            }
+    	        } else {
+    	            alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+    	            location.href = "/";
+    	            return false;
+    	        }
+    	    };
+    	    var formData = JSON.stringify({
+    	        "goodsNum": "[[${dto.goodsDTO.goodsNum}]]"
+    	    });
+    	    xhr.send(formData); // 조건문 내부로 이동
+    	} else {
+    	    alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+    	    window.open("/login/item.login", "login", "width=450, height=650,top=100,left=100");
+    	}
+    });
 });
+
 </script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
@@ -75,50 +107,24 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 <header class="w3-display-container w3-content" style="max-width:1500px;" >
   <div class="container my-5" id="rooms"  style="padding-top: 60px; margin-top: -60px;">
     <div class="row">
-    	<h1>조회수 : [[${dto.goodsDTO.visitCount }]] <br />
-    	[[${dto.goodsDTO.goodsName}]] 숙소정보입니다.</h1>
+    	
         <!-- Product Images -->
+        
         <div class="col-md-6">
             <div class="text-center">
                 <img th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|" 
                      alt="Product Image" class="img-fluid mb-3" />
             </div>
-            <div class="d-flex justify-content-center">
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />     
-            </div>
-            <div class="d-flex justify-content-center">
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=195&q=80" 
-                     alt="Thumbnail" class="img-thumbnail me-2" style="width: 100px;" />     
-            </div>
-            
-            
         </div>
         <!-- Product Details -->
         <div class="col-md-6">
-            <h2>Apple iPhone 10 Pro Max</h2>
-            <p><strong>Brand:</strong> <a href="#">Apple</a></p>
-            <p><strong>Model:</strong> 10 Pro Max</p>
-            <p><strong>Reward Points:</strong> 543</p>
-            <p><strong>Availability:</strong> <span class="text-success">In Stock</span></p>
-            <p><strong>Price in reward points:</strong> 400</p>
-            <h3 class="text-danger">$1,827.82 <small class="text-muted"><del>$2,127.82</del></small></h3>
+            <h2>[[${dto.goodsDTO.goodsName}]]</h2>
+            <p><strong>숙소 주소:</strong>[[${dto.goodsDTO.hotelAddr}]] [[${dto.goodsDTO.hotelAddrDetail}]]</p>
+            <p><strong>남은 객실 수:</strong> [[${dto.stock}]]개</p>
+            <p><strong>조회수 : </strong> [[${dto.goodsDTO.visitCount }]]</p>
+            <p><strong>숙소 정보:</strong>[[${dto.goodsDTO.goodsContents }]]</p>
+            <p><strong>숙소 등록일:</strong> <span class="text-success">[[${#dates.format(dto.goodsDTO.goodsRegist, 'yyyy-MM-dd')}]]</span></p>
+            <h3 class="text-danger">[[${#numbers.formatCurrency(dto.goodsDTO.goodsPrice)}]]<span style="color: black">/박</span></h3>
             <p>
         	<th:block th:if="${dto.stock <= 0 or dto.stock == null}">
         	  예약마감입니다.
@@ -130,18 +136,23 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             	  
                   <button class="btn btn-primary me-2"> 예약하기 </button>
         		</th:block>
-                <button class="btn btn-secondary me-2"><i class="fas fa-heart" style="color: white;"></i></button>
-                <button class="btn btn-secondary"><i class="fas fa-retweet"></i></button>
+                <button th:if="${wish <= 0 or wish == null}" id="wish" class="btn btn-secondary me-2"><i id="wish1" class="fas fa-heart" style="color: white;"></i></button>
+                <button th:if="${wish > 0 }" id="wish" class="btn btn-secondary me-2"><i id="wish1" class="fas fa-heart" style="color: red;"></i></button>
             </div>
         </div>
+    </div>
+    <div align="center">
+      <hr style="height: 2px; background-color: lightgray; border: none;">
+      상세이미지<br>
+      <img th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|" /><br><br />
+      <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.goodsDetailStoreImage, '[`/]')}">
+	    <img th:src="|/static/upload/${image}|" width="400" /><br /><br />
+  	  </th:block>
     </div>
   </div>
 </header>
 <!-- Page content -->
 <div class="w3-content" style="max-width:1532px;">
-  
-  
-
   <div class="w3-row-padding" id="about"  style="padding-top: 60px; margin-top: -60px;">
     <div class="w3-col l4 12">
       <h3>위치</h3>
@@ -159,38 +170,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     <div class="w3-third"><i class="fa fa-phone w3-text-red"></i> Phone: [[${dto.empPhone}]]</div>
     <div class="w3-third"><i class="fa fa-envelope w3-text-red"></i> Email: [[${dto.empEmail}]]</div>
   </div>
-
-  <div class="w3-panel w3-red w3-leftbar w3-padding-32">
-    <h6><i class="fa fa-info w3-deep-orange w3-padding w3-margin-right"></i> On demand, we can offer playstation, babycall, children care, dog equipment, etc.</h6>
-  </div>
-
-  <div class="w3-container">
-    <h3>Our Hotels</h3>
-    <h6>You can find our hotels anywhere in the world:</h6>
-  </div>
-
-  <div class="w3-container w3-padding-32 w3-black w3-opacity w3-card w3-hover-opacity-off" style="margin:32px 0;">
-    <h2>Get the best offers first!</h2>
-    <p>Join our newsletter.</p>
-    <label>E-mail</label>
-    <input class="w3-input w3-border" type="text" placeholder="Your Email address">
-    <button type="button" class="w3-button w3-red w3-margin-top">Subscribe</button>
-  </div>
-
-  <div class="w3-container" id="contact" style="padding-top: 60px; margin-top: -60px;">
-    <h2>Contact</h2>
-    <p>If you have any questions, do not hesitate to ask them.</p>
-    <i class="fa fa-map-marker w3-text-red" style="width:30px"></i> Chicago, US<br>
-    <i class="fa fa-phone w3-text-red" style="width:30px"></i> Phone: +00 151515<br>
-    <i class="fa fa-envelope w3-text-red" style="width:30px"> </i> Email: mail@mail.com<br>
-    <form action="/action_page.php" target="_blank">
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Email" required name="Email"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><button class="w3-button w3-black w3-padding-large" type="submit">SEND MESSAGE</button></p>
-    </form>
-  </div>
-
 <!-- End page content -->
 </div>
 
