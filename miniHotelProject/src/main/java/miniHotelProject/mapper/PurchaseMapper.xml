@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniHotelProject.mapper.PurchaseMapper">
+	<sql id="purchaseBaseColumns">
+		PURCHASE_NUM, PURCHASE_DATE, PURCHASE_PRICE, DELIVERY_ADDR, DELIVERY_ADDR_DETAIL
+		, DELIVERY_POST, DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM, DELIVERY_NAME
+		, PURCHASE_NAME
+	</sql>
+
+	<select id="selectPurchaseNum" resultType="string">
+		select concat(to_char(sysdate,'yyyyMMdd') , COALESCE(max(to_number(substr(purchase_num,9))),0 ) +1)
+		from purchase
+		where substr(purchase_num,1 ,8) = to_char(sysdate,'yyyyMMdd')
+	</select>
+
+	<insert id="purchaseInsert" parameterType="purchaseDTO">
+		insert into purchase( <include refid="purchaseBaseColumns" /> )
+		values(#{purchaseNum}, sysdate, #{purchasePrice}
+			  , null, null, null
+			  , #{deliveryPhone}, #{message}, '입금대기중', #{memberNum}
+			  , #{deliveryName}, #{purchaseName})
+	</insert>
+	
+	<insert id="purchaseListInsert" >
+		insert into purchase_list(GOODS_NUM, PURCHASE_NUM, PURCHASE_QTY, GOODS_UNIT_PRICE)
+		select #{goodsNum}, #{purchaseNum}, #{qty}, #{totalPrice}
+		from goods
+		where goods_num = #{goodsNum}
+	</insert>
+	
+	
+	<select id="purchaseSelectOne" parameterType="string" resultType="purchaseDTO">
+		select  <include refid="purchaseBaseColumns" />
+		from purchase
+		where purchase_num = #{purchaseNum}
+	</select>
+	<insert id="paymentInsert" parameterType="paymentDTO">
+		insert into 
+		payment(PURCHASE_NUM, CONFIRMNUMBER, CARDNUM, TID, TOTALPRICE, RESULTMESSAGE, PAYMETHOD, APPLDATE, APPTIME)
+		values(#{purchaseNum}, #{confirmnumber}, #{cardnum}, #{tid},  #{totalprice}, #{resultmessage}
+			  , #{paymethod}, #{appldate}, #{apptime})
+	</insert>
+</mapper>

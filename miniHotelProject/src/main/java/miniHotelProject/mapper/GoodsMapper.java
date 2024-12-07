@@ -18,6 +18,7 @@ public interface GoodsMapper {
 			@Param("startRow") int startRow
 			, @Param("endRow") int endRow);
 	public int goodsCount(String searchWord);
+	public Integer goodsSelectPrice(String goodsNum);
 
 
 }

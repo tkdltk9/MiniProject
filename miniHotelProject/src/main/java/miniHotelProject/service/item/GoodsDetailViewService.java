@@ -41,6 +41,5 @@ public class GoodsDetailViewService {
 			Integer i = itemMapper.wishCountSelectOne(map);
 			model.addAttribute("wish", i);
 		}
-		
 	}
 }

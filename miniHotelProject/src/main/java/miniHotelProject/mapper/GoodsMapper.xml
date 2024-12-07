@@ -100,4 +100,9 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="goodsSelectPrice" resultType="string" parameterType="Integer">
+		select goods_price from goods
+		where goods_num = #{goodsNum}
+	</select>
 </mapper>

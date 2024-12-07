@@ -50,7 +50,10 @@ $(function() {
     } else {
         console.error("Kakao Maps API가 로드되지 않았습니다.");
     }
-
+    $("#buyItem").click(function(){
+		location.href = 
+			"/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&qty="+$("#qty").val();
+	});
     // 위시리스트 클릭 이벤트
     $("#wish").click(function() {
     	if (![[${#strings.isEmpty(session.auth)}]]) { // 로그인이 되어 있는 경우에만 실행
@@ -132,9 +135,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             <div class="d-flex">
             	<th:block th:if="${dto.stock > 0 and dto.stock != null}">
             	  <p>인원: </p>
-            	  <input type="number" class="form-control me-2" value="1" style="width: 70px;">
+            	  <input type="number" id="qty" class="form-control me-2" value="1" min="1" style="width: 70px;">
             	  
-                  <button class="btn btn-primary me-2"> 예약하기 </button>
+                  <button id="buyItem" class="btn btn-primary me-2"> 예약하기 </button>
         		</th:block>
                 <button th:if="${wish <= 0 or wish == null}" id="wish" class="btn btn-secondary me-2"><i id="wish1" class="fas fa-heart" style="color: white;"></i></button>
                 <button th:if="${wish > 0 }" id="wish" class="btn btn-secondary me-2"><i id="wish1" class="fas fa-heart" style="color: red;"></i></button>
