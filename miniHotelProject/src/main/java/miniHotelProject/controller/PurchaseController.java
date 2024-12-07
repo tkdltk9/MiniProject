@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import miniHotelProject.command.PurchaseCommand;
+import miniHotelProject.mapper.PurchaseMapper;
 import miniHotelProject.service.purchase.GoodsBuyService;
 import miniHotelProject.service.purchase.GoodsOrderService;
 import miniHotelProject.service.purchase.IniPayReqService;
+import miniHotelProject.service.purchase.OrderProcessListService;
 
 @Controller
 @RequestMapping("purchase")
@@ -22,6 +24,8 @@ public class PurchaseController {
 	GoodsOrderService goodsOrderService;
 	@Autowired
 	IniPayReqService iniPayReqService;
+	@Autowired
+	OrderProcessListService orderProcessListService;
 	@RequestMapping("goodsBuy")
 	public String goodsBuy(String goodsNum, Integer qty, HttpSession session,Model model) {
 		goodsBuyService.execute(goodsNum, qty, session, model);
@@ -41,5 +45,28 @@ public class PurchaseController {
 			e.printStackTrace();
 		}
 		return "thymeleaf/purchase/payment";
+	}
+
+	@GetMapping("orderList")
+	public String orderList(HttpSession session, Model model) {
+		orderProcessListService.execute(session, model, null);
+		return "thymeleaf/purchase/orderList";
+	}
+	@GetMapping("purchaseList")
+	public String purchaseList(HttpSession session, Model model) {
+		orderProcessListService.execute(session, model, null);
+		return "thymeleaf/purchase/purchaseList";
+	}
+	@Autowired
+	PurchaseMapper purchaseMapper;
+	@GetMapping("paymentDel")
+	public String paymentDel(String purchaseNum) {
+		purchaseMapper.paymentDel(purchaseNum);
+		return "redirect:orderList";
+	}
+	@GetMapping("purchaseOk")
+	public String purchaseOk(String purchaseNum) {
+		purchaseMapper.paymentStatusUpdate(purchaseNum);
+		return "redirect:orderList";
 	}
 }

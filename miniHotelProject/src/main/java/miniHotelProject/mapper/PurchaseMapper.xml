@@ -25,21 +25,104 @@
 	
 	<insert id="purchaseListInsert" >
 		insert into purchase_list(GOODS_NUM, PURCHASE_NUM, PURCHASE_QTY, GOODS_UNIT_PRICE)
-		select #{goodsNum}, #{purchaseNum}, #{qty}, #{totalPrice}
-		from goods
-		where goods_num = #{goodsNum}
+		values(#{goodsNum}, #{purchaseNum}, #{qty}, #{totalPrice})
+		
 	</insert>
-	
 	
 	<select id="purchaseSelectOne" parameterType="string" resultType="purchaseDTO">
 		select  <include refid="purchaseBaseColumns" />
 		from purchase
 		where purchase_num = #{purchaseNum}
 	</select>
+	
 	<insert id="paymentInsert" parameterType="paymentDTO">
 		insert into 
 		payment(PURCHASE_NUM, CONFIRMNUMBER, CARDNUM, TID, TOTALPRICE, RESULTMESSAGE, PAYMETHOD, APPLDATE, APPTIME)
 		values(#{purchaseNum}, #{confirmnumber}, #{cardnum}, #{tid},  #{totalprice}, #{resultmessage}
 			  , #{paymethod}, #{appldate}, #{apptime})
 	</insert>
+	
+	<resultMap type="orderList" id="orderListResultMap">
+		<association property="purchaseDTO" javaType="purchaseDTO">
+			<constructor>
+				<idArg column="purchase_Num" javaType="string" />
+				<arg column="purchase_Date" javaType="java.util.Date"/>
+				<arg column="purchase_Price" javaType="integer"/>
+				<arg column="delivery_Addr" javaType="string"/>
+				<arg column="delivery_Addr_Detail" javaType="string"/>
+				<arg column="delivery_Post" javaType="string"/>
+				<arg column="delivery_Phone" javaType="string"/>
+				<arg column="message" javaType="string"/>
+				<arg column="purchase_Status" javaType="string"/>
+				<arg column="member_num" javaType="string"/>
+				<arg column="delivery_name" javaType="string"/>
+				<arg column="purchase_Name" javaType="string"/>		
+			</constructor>
+		</association>
+		<association property="paymentDTO" javaType="paymentDTO">
+			<id  column="purchase_num" jdbcType="VARCHAR" property="purchaseNum" />
+			<result column="confirmnumber" jdbcType="VARCHAR" property="confirmnumber"/>
+			<result column="cardnum" jdbcType="VARCHAR" property="cardnum"/>
+			<result column="appldate" jdbcType="VARCHAR" property="appldate"/>
+			<result column="APPTIME" jdbcType="VARCHAR" property="appltime"/>
+			<result column="totalprice" jdbcType="BIGINT" property="totalprice"/>
+		</association>
+		<association property="deliveryDTO" javaType="deliveryDTO">
+			<id  column="purchase_num" jdbcType="VARCHAR" property="purchaseNum" />
+			<result column="delivery_num" jdbcType="VARCHAR" property="deliveryNum"/>
+			<result column="delivery_date" jdbcType="DATE" property="deliveryDate"/>
+			<result column="delivery_status" jdbcType="VARCHAR" property="deliveryStatus"/>
+		</association>
+		<collection property="purchaseListGoodsDTOs" ofType="purchaseListGoodsDTO">
+			<association property="purchaseListDTO" javaType="purchaseListDTO">
+				<result column="purchase_qty" jdbcType="BIGINT" property="purchaseQty"/>
+				<result column="GOODS_UNIT_PRICE" jdbcType="BIGINT" property="totalPrice"/>
+			</association>
+			<association property="goodsDTO" javaType="goodsDTO">
+				<id column="goods_Num" jdbcType="VARCHAR" property="goodsNum"/>
+				<result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+				<result column="GOODS_MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="goodsMainStoreImage"/>
+				<result column="goods_contents" jdbcType="VARCHAR" property="goodsContents" />
+			</association>
+			<association property="reviewDTO" javaType="reviewDTO">
+				<result column="REVIEW_DATE" jdbcType="DATE" property="reviewDate"/>
+				<result column="REVIEW_CONTENTS" jdbcType="VARCHAR" property="reviewContents"/>
+				<result column="MEMBER_ID" jdbcType="VARCHAR" property="memberId"/>
+			</association>
+		</collection>
+	</resultMap>
+	<select id="orderList" parameterType="hashmap" resultMap="orderListResultMap">
+		select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE, goods_contents
+			   ,GOODS_UNIT_PRICE, PURCHASE_QTY
+			   ,p.purchase_num , PURCHASE_DATE , PURCHASE_PRICE, DELIVERY_ADDR, DELIVERY_ADDR_DETAIL
+			   ,DELIVERY_POST, DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM
+			   ,DELIVERY_NAME, PURCHASE_NAME
+		       ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
+		       ,DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS
+		       ,REVIEW_DATE, REVIEW_CONTENTS, MEMBER_ID
+		from  goods g join purchase_list pl
+		on g.goods_num = pl.goods_num join purchase p
+		on pl.purchase_num = p.purchase_num left outer join payment pm
+		on p.purchase_num = pm.purchase_num left outer join delivery d
+		on p.purchase_num = d.purchase_num left outer join reviews r
+		on pl.purchase_num = r.purchase_num and pl.goods_num = r.goods_num 
+		<trim prefix="where"  prefixOverrides="AND | OR">
+			<if test="memberNum != null">
+				member_num = #{memberNum}
+			</if>
+			<if test="purchaseNum != null">
+				and p.purchase_num = #{purchaseNum}
+			</if>
+		</trim>
+		order by p.purchase_num
+	</select>
+	<delete id="paymentDel" parameterType="string">
+		delete from payment
+		where purchase_num = #{purchaseNum}
+	</delete>
+	<update id="paymentStatusUpdate" parameterType="string"> 
+		update purchase
+		set PURCHASE_STATUS = '구매확정'
+		where purchase_num = #{purchaseNum}
+	</update>
 </mapper>

@@ -77,15 +77,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <div th:if="${session.auth != null}">
   	<th:block th:if="${session.auth.grade == 'emp'}">
 	  <a href="/employee/empList" onclick="w3_close()" class="w3-bar-item w3-button">호스트 리스트보기</a>
-	  <a href="/goods/goodsList" onclick="w3_close()" class="w3-bar-item w3-button">숙소 관리</a>
 	  <a href="/myPage/empMyPage" onclick="w3_close()" class="w3-bar-item w3-button">내 정보 보기</a>
+	  <a href="/goods/goodsList" onclick="w3_close()" class="w3-bar-item w3-button">숙소 관리</a>
+	  <a href="/purchase/purchaseList" onclick="w3_close()" class="w3-bar-item w3-button">주문 내역</a>
+	  <a href="/inquire/goodsQuestion" onclick="w3_close()" class="w3-bar-item w3-button">상품 문의</a>
 	  <a href="/login/logout" onclick="w3_close()" class="w3-bar-item w3-button">로그아웃</a>
 	</th:block>
 	<th:block th:if="${session.auth.grade == 'mem'}">
 	  <a href="/member/memList" onclick="w3_close()" class="w3-bar-item w3-button">회원 리스트보기</a>
-	  <a href="#" onclick="w3_close()" class="w3-bar-item w3-button">숙소 찜</a>
-	  <a href="#" onclick="w3_close()" class="w3-bar-item w3-button">예약한 숙소 확인</a>
 	  <a href="/myPage/memMyPage" onclick="w3_close()" class="w3-bar-item w3-button">내 정보 보기</a>
+	  <a href="/item/wishList" onclick="w3_close()" class="w3-bar-item w3-button">관심 숙소</a>
+	  <a href="/purchase/orderList" onclick="w3_close()" class="w3-bar-item w3-button">예약한 숙소 확인</a>
 	  <a href="/login/logout" onclick="w3_close()" class="w3-bar-item w3-button">로그아웃</a>
 	</th:block>
   </div>

@@ -34,15 +34,17 @@ public class GoodsOrderService {
 		dto.setMemberNum(memberNum);
 		purchaseMapper.purchaseInsert(dto);
 		// 구매리스트
-		String goodsNum = purchaseCommand.getGoodsNum();
-		Integer qty = purchaseCommand.getQty();
-		Integer totalPrice = purchaseCommand.getTotalPaymentPrice();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("purchaseNum", purchaseNum);
 		map.put("memberNum", memberNum);
-		map.put("goodsNum", goodsNum);
-		map.put("qty", qty);
-		map.put("totalPrice", totalPrice);
+		map.put("goodsNum", purchaseCommand.getGoodsNum());
+		map.put("qty", purchaseCommand.getQty());
+		map.put("totalPrice", purchaseCommand.getTotalPaymentPrice());
+		System.out.println(purchaseNum);
+		System.out.println(memberNum);
+		System.out.println(purchaseCommand.getGoodsNum());
+		System.out.println(purchaseCommand.getQty());
+		System.out.println(purchaseCommand.getTotalPaymentPrice());
 		purchaseMapper.purchaseListInsert(map);
 		return purchaseNum;
 	}
