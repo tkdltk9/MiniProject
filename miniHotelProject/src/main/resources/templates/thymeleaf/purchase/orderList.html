@@ -6,8 +6,8 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 </head>
 <body>
-<table width="800" align="center" >
-	<tr><td>주문번호 / 결제번호</td><td> 상품명 </td><td> 주문상태 </td></tr>
+<table width="800" align="center" border="1">
+	<tr><th>주문번호 / 결제번호</th><th> 상품명 </th><th> 주문상태 </th></tr>
 	
 	<tr th:each=" orderListDTO : ${list}">
 		<td>[[${orderListDTO.purchaseDTO.purchaseNum}]] / 
@@ -38,13 +38,13 @@
 			 	<a th:href="@{paymentDel(purchaseNum=${orderListDTO.purchaseDTO.purchaseNum})}">결제취소</a>
 			 	</th:block> 
 			 	<th:block th:if="${orderListDTO.deliveryDTO.deliveryNum != null }">
-			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송중' }">
+			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '예약검토중' }">
 			 			배송중
 			 		</th:block>
-			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송완료' }">
+			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '예약완료' }">
 			 			배송완료 | 
 			 			<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus != '구매확정'}">
-			 			<a th:href="|purchaseOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">구매확정</a>
+			 			<a th:href="|purchaseOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">예약확정</a>
 			 			</th:block>
 			 			<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus == '구매확정'}">
 			 				 <th:block th:each=" dto : ${orderListDTO.purchaseListGoodsDTOs}">

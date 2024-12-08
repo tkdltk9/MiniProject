@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>deliveryRegist</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	$("#btn").click(function(){
+		opener.location.reload();
+		window.self.close();
+	});
+	
+});
+
+window.onunload = function () {
+    if (window.opener && !window.opener.closed) {
+      window.opener.location.reload();
+    }
+};
+
+</script>
+</head>
+<body>
+<table width="800" align = "center" border="1">
+<caption>예약 상세 정보</caption>
+<th:block th:each=" dto : ${list[0].purchaseListGoodsDTOs}">
+	<tr><td><img width="30" th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|"/></td>
+		<td>숙소명 : [[${dto.goodsDTO.goodsName}]] | 숙소가격 : [[${dto.purchaseListDTO.totalPrice}]] | 
+			인원 : [[${dto.purchaseListDTO.purchaseQty}]]</td></tr>
+	<tr><td colspan="2"><b>상품설명</b><br />
+		<span>[[${#strings.replace(dto.goodsDTO.goodsContents,newLineChar,'&lt;br /&gt;')}]]</span>
+		</td></tr> 
+</th:block>
+	<tr>
+		<td width="400">
+			<h2>주문내용</h2>
+			예약번호 : [[${list[0].purchaseDTO.purchaseNum}]]<br />
+			예약날짜 : [[${#dates.format(list[0].purchaseDTO.purchaseDate,'yyyy-MM-dd')}]]<br />
+			금액 : [[${list[0].purchaseDTO.purchasePrice}]]<br />
+			연락처 : [[${list[0].purchaseDTO.deliveryPhone}]]<br />
+			받는사람 : [[${list[0].purchaseDTO.deliveryName}]]<br />
+			주문메세지 : [[${list[0].purchaseDTO.message}]]<br />
+		</td>
+		<td width="400" th:if="${list[0].paymentDTO.appldate != null}">
+			<h2>결제내용</h2>
+			결제번호 : <span th:if="${list[0].paymentDTO.confirmnumber != null}">
+						[[${list[0].paymentDTO.confirmnumber}]]
+					</span>
+					 <span th:if="${list[0].paymentDTO.confirmnumber == null}">
+						현금결제
+					</span>
+					<br />
+			결제금액 : [[${list[0].paymentDTO.totalprice}]]  <br />
+			결제 일 : [[${list[0].paymentDTO.appldate}]]<br />
+			카드번호 : [[${list[0].paymentDTO.cardnum}]] <br /> 
+		</td>
+		<td width="400" th:if="${list[0].paymentDTO.appldate == null}">
+			<h2>결제내용</h2>
+			결제 정보가 없습니다.<br /><br /><br /><br /><br /><br /><br />
+		</td>
+	</tr>
+</table>
+<form action="/book/bookDelete" method="post" 
+								th:if="${list[0].deliveryDTO.deliveryNum != null}">
+<input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+<table width="800" align = "center" border="1">
+	<tr><td colspan="2">배송정보</td></tr>
+	<tr><td>송장번호</td><td>[[${list[0].deliveryDTO.deliveryNum}]]</td></tr>
+	<tr><td colspan="2"><input type="submit" value="배송정보삭제"/></td></tr>
+</table>
+</form>
+
+<form action="/book/bookRegist" method="post" 
+	th:if="${list[0].deliveryDTO.deliveryNum == null and list[0].paymentDTO.appldate != null}">
+<input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+<table width="800" align = "center">
+	<tr><td colspan="2"><b>배송정보입력</b></td></tr>
+	<tr><td>송장번호</td>
+		<td><input type="text" name="deliveryNum" required="required"/></td></tr>
+	<tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>	
+</table>
+</form>
+<button type="button" id="btn">닫기</button>
+</body>
+</html>

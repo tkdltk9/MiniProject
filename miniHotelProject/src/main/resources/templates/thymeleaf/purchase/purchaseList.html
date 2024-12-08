@@ -5,14 +5,15 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 function detail(purchaseNum){
-	window.open("/delivery/deliveryRegist?purchaseNum="+purchaseNum,""
+	window.open("/book/bookRegist?purchaseNum="+purchaseNum,""
 			,"width=800,height=800,top=100,left=100");
 }
 </script>
 </head>
 <body>
-<table width="800" align="center">
-   <tr><td>주문일(결제번호)</td> <td>상품명/주문번호</td><td>주문상태</td></tr>
+<a href="/">홈</a>
+<table width="800" align="center" border="1">
+   <tr><th>주문일(결제번호)</th> <th>상품명/주문번호</th><th>주문상태</th></tr>
    
    <tr th:each=" orderListDTO : ${list}">
    		<td>[[${#dates.format(orderListDTO.purchaseDTO.purchaseDate,'yyyy-MM-dd')}]]
@@ -31,7 +32,7 @@ function detail(purchaseNum){
 			</th:block>
 			/[[${orderListDTO.purchaseDTO.purchaseNum}]]
 		</td>
-		<td> <a th:href="|javascript:detail('${orderListDTO.purchaseDTO.purchaseNum}');|" >주문상세보기</a> | 
+		<td> <a th:href="|javascript:detail('${orderListDTO.purchaseDTO.purchaseNum}');|" >예약 상세보기</a> | 
 			<span th:if="${orderListDTO.paymentDTO.appldate == null}">
 				결제대기중
 			</span>
@@ -40,11 +41,11 @@ function detail(purchaseNum){
 					결제완료
 				</span>
 				<th:block th:if="${orderListDTO.deliveryDTO.deliveryNum != null}">
-					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus != '배송완료'}">
-						<a th:href="|/delivery/deliveryStatus?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">배송중</a>
+					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus != '예약완료'}">
+						<a th:href="|/book/bookStatus?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">예약검토중</a>
 					</span>
-					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송완료'}">
-						배송완료
+					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus == '예약완료'}">
+						예약완료
 					</span>
 				</th:block>
 			</th:block>

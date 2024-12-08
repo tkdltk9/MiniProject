@@ -64,7 +64,7 @@
 			<result column="confirmnumber" jdbcType="VARCHAR" property="confirmnumber"/>
 			<result column="cardnum" jdbcType="VARCHAR" property="cardnum"/>
 			<result column="appldate" jdbcType="VARCHAR" property="appldate"/>
-			<result column="APPTIME" jdbcType="VARCHAR" property="appltime"/>
+			<result column="APPTIME" jdbcType="VARCHAR" property="apptime"/>
 			<result column="totalprice" jdbcType="BIGINT" property="totalprice"/>
 		</association>
 		<association property="deliveryDTO" javaType="deliveryDTO">

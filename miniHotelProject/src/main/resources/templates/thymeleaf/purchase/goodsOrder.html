@@ -24,7 +24,7 @@
 </table>
 <form action="goodsOrder" method="post">
 <input type="hidden" name="qty" th:value="${qty}" />
-<input type="hidden" name="goodsNum" th:value="${goodsNum}" />
+<input type="hidden" name="goodsNum" th:value="${dto.goodsNum}" />
 <input type="hidden" name="totalPaymentPrice" th:value="${sumPrice}" />
 <input type="hidden" name="purchaseName"  th:value= "${dto.goodsName + ' 예약하기 ' }" />
 <table width="700"  align="center" border="1">
