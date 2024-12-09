@@ -147,7 +147,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     <div align="center">
       <hr style="height: 2px; background-color: lightgray; border: none;">
       상세이미지<br>
-      <img th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|" /><br><br />
+      
       <th:block th:each="image : ${#strings.arraySplit(dto.goodsDTO.goodsDetailStoreImage, '[`/]')}">
 	    <img th:src="|/static/upload/${image}|" width="400" /><br /><br />
   	  </th:block>

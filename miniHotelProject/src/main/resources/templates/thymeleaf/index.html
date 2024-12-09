@@ -30,7 +30,7 @@ function loadMoreItems() {
                 console.log("dto 데이터:", dto); // 각 항목 디버깅
                 item += '<div class="w3-quarter">';
                 item += '<a href="/corner/detailView?goodsNum='+ dto.goodsNum +'">';
-                item += '<img src="/static/upload/' + dto.goodsMainStoreImage + '" width="100%" />';
+                item += '<img src="/static/upload/' + dto.goodsMainStoreImage + '" width="280px" height="200px" />';
                 item += '<h3>' + dto.goodsName + '</h3>';
                 item += '<p>' + dto.hotelLocation + '</p></a>';
                 item += formatter.format(dto.goodsPrice) + '/박';
